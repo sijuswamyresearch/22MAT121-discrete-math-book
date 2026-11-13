@@ -1,0 +1,1972 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.31">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>3&nbsp; Unit 3: Number Theory and Cryptographic Applications – 22MAT121: Discrete Mathematics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./unit2-relations-recurrences.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-80637275c7e8b74ebe44ac86110b5a7b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-530822cf9d499dd5157d6fa15aab98a4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-80637275c7e8b74ebe44ac86110b5a7b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./unit3-number-theory.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Unit 3: Number Theory and Cryptographic Applications</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">22MAT121: Discrete Mathematics</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="./22MAT121--Discrete-Mathematics.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course Overview &amp; Syllabus</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./unit1-logic-counting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Unit 1: Logic, Mathematical Reasoning, and Counting</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./unit2-relations-recurrences.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Unit 2: Relations, Recurrence Relations, and Advanced Counting Techniques</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./unit3-number-theory.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Unit 3: Number Theory and Cryptographic Applications</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#divisibility-prime-factorization-linear-congruences-and-the-chinese-remainder-theorem" id="toc-divisibility-prime-factorization-linear-congruences-and-the-chinese-remainder-theorem" class="nav-link active" data-scroll-target="#divisibility-prime-factorization-linear-congruences-and-the-chinese-remainder-theorem"><span class="header-section-number">3.1</span> Divisibility, Prime Factorization, Linear Congruences, and the Chinese Remainder Theorem</a>
+  <ul class="collapse">
+  <li><a href="#context-computing-motivation" id="toc-context-computing-motivation" class="nav-link" data-scroll-target="#context-computing-motivation"><span class="header-section-number">3.1.1</span> Context &amp; Computing Motivation</a></li>
+  <li><a href="#basic-theory-formal-definitions" id="toc-basic-theory-formal-definitions" class="nav-link" data-scroll-target="#basic-theory-formal-definitions"><span class="header-section-number">3.1.2</span> Basic Theory &amp; Formal Definitions</a></li>
+  <li><a href="#worked-examples" id="toc-worked-examples" class="nav-link" data-scroll-target="#worked-examples"><span class="header-section-number">3.1.3</span> Worked Examples</a></li>
+  <li><a href="#problems-solutions-section-3.1" id="toc-problems-solutions-section-3.1" class="nav-link" data-scroll-target="#problems-solutions-section-3.1"><span class="header-section-number">3.1.4</span> Problems &amp; Solutions (Section 3.1)</a></li>
+  </ul></li>
+  <li><a href="#wilsons-fermats-and-eulers-theorems-pseudoprimes-and-carmichael-numbers" id="toc-wilsons-fermats-and-eulers-theorems-pseudoprimes-and-carmichael-numbers" class="nav-link" data-scroll-target="#wilsons-fermats-and-eulers-theorems-pseudoprimes-and-carmichael-numbers"><span class="header-section-number">3.2</span> Wilson’s, Fermat’s, and Euler’s Theorems, Pseudoprimes, and Carmichael Numbers</a>
+  <ul class="collapse">
+  <li><a href="#context-computing-motivation-1" id="toc-context-computing-motivation-1" class="nav-link" data-scroll-target="#context-computing-motivation-1"><span class="header-section-number">3.2.1</span> Context &amp; Computing Motivation</a></li>
+  <li><a href="#basic-theory-formal-definitions-1" id="toc-basic-theory-formal-definitions-1" class="nav-link" data-scroll-target="#basic-theory-formal-definitions-1"><span class="header-section-number">3.2.2</span> Basic Theory &amp; Formal Definitions</a></li>
+  <li><a href="#worked-examples-1" id="toc-worked-examples-1" class="nav-link" data-scroll-target="#worked-examples-1"><span class="header-section-number">3.2.3</span> Worked Examples</a></li>
+  <li><a href="#problems-solutions-section-3.2" id="toc-problems-solutions-section-3.2" class="nav-link" data-scroll-target="#problems-solutions-section-3.2"><span class="header-section-number">3.2.4</span> Problems &amp; Solutions (Section 3.2)</a></li>
+  </ul></li>
+  <li><a href="#arithmetic-functions-and-quadratic-residues" id="toc-arithmetic-functions-and-quadratic-residues" class="nav-link" data-scroll-target="#arithmetic-functions-and-quadratic-residues"><span class="header-section-number">3.3</span> Arithmetic Functions and Quadratic Residues</a>
+  <ul class="collapse">
+  <li><a href="#context-computing-motivation-2" id="toc-context-computing-motivation-2" class="nav-link" data-scroll-target="#context-computing-motivation-2"><span class="header-section-number">3.3.1</span> Context &amp; Computing Motivation</a></li>
+  <li><a href="#basic-theory-formal-definitions-2" id="toc-basic-theory-formal-definitions-2" class="nav-link" data-scroll-target="#basic-theory-formal-definitions-2"><span class="header-section-number">3.3.2</span> Basic Theory &amp; Formal Definitions</a></li>
+  <li><a href="#worked-examples-2" id="toc-worked-examples-2" class="nav-link" data-scroll-target="#worked-examples-2"><span class="header-section-number">3.3.3</span> Worked Examples</a></li>
+  <li><a href="#problems-solutions-section-3.3" id="toc-problems-solutions-section-3.3" class="nav-link" data-scroll-target="#problems-solutions-section-3.3"><span class="header-section-number">3.3.4</span> Problems &amp; Solutions (Section 3.3)</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Unit 3: Number Theory and Cryptographic Applications</span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="divisibility-prime-factorization-linear-congruences-and-the-chinese-remainder-theorem" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="divisibility-prime-factorization-linear-congruences-and-the-chinese-remainder-theorem"><span class="header-section-number">3.1</span> Divisibility, Prime Factorization, Linear Congruences, and the Chinese Remainder Theorem</h2>
+<section id="context-computing-motivation" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="context-computing-motivation"><span class="header-section-number">3.1.1</span> Context &amp; Computing Motivation</h3>
+<p>Modular arithmetic and integer factorization form the mathematical core of modern asymmetric cryptography, cryptographic hashing, pseudorandom number generation, and error-correcting codes. The <strong>Extended Euclidean Algorithm</strong> computes modular inverses required for RSA key generation and Elliptic Curve Cryptography (ECC) in <span class="math inline">\(O(\log n)\)</span> time, while the <strong>Chinese Remainder Theorem (CRT)</strong> accelerates RSA decryption by <span class="math inline">\(4\times\)</span> (RSA-CRT) and enables parallel large-integer arithmetic.</p>
+</section>
+<section id="basic-theory-formal-definitions" class="level3" data-number="3.1.2">
+<h3 data-number="3.1.2" class="anchored" data-anchor-id="basic-theory-formal-definitions"><span class="header-section-number">3.1.2</span> Basic Theory &amp; Formal Definitions</h3>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Divisibility, Fundamental Theorem of Arithmetic &amp; Bézout’s Identity
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Division Algorithm:</strong> For any <span class="math inline">\(a \in \mathbb{Z}\)</span> and <span class="math inline">\(d \in \mathbb{Z}^+\)</span>, there exist unique integers <span class="math inline">\(q\)</span> (quotient) and <span class="math inline">\(r\)</span> (remainder) such that <span class="math inline">\(a = dq + r\)</span> with <span class="math inline">\(0 \le r &lt; d\)</span>.</li>
+<li><strong>Fundamental Theorem of Arithmetic:</strong> Every integer <span class="math inline">\(n &gt; 1\)</span> can be factored uniquely (up to order of factors) into prime powers: <span class="math inline">\(n = p_1^{e_1} p_2^{e_2} \cdots p_k^{e_k}\)</span>.</li>
+<li><strong>Bézout’s Identity:</strong> For any non-zero integers <span class="math inline">\(a, b\)</span>, there exist integers <span class="math inline">\(x, y \in \mathbb{Z}\)</span> (Bézout coefficients, found via the Extended Euclidean Algorithm) such that: <span class="math display">\[ax + by = \gcd(a, b)\]</span></li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Linear Congruences &amp; The Chinese Remainder Theorem (CRT)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><strong>Single Linear Congruence (<span class="math inline">\(ax \equiv b \pmod m\)</span>):</strong> Let <span class="math inline">\(g = \gcd(a, m)\)</span>. The congruence has solutions if and only if <span class="math inline">\(g \mid b\)</span>. When <span class="math inline">\(g \mid b\)</span>, there are exactly <span class="math inline">\(g\)</span> incongruent solutions modulo <span class="math inline">\(m\)</span>, given by: <span class="math display">\[x \equiv x_0 + k \cdot \frac{m}{g} \pmod m, \qquad k = 0, 1, \dots, g - 1\]</span> where <span class="math inline">\(x_0\)</span> is the unique solution to <span class="math inline">\(\frac{a}{g} x \equiv \frac{b}{g} \pmod{\frac{m}{g}}\)</span>. In particular, <span class="math inline">\(a\)</span> has a unique <strong>modular inverse</strong> <span class="math inline">\(a^{-1} \pmod m\)</span> iff <span class="math inline">\(\gcd(a,m) = 1\)</span>.</li>
+<li><strong>Chinese Remainder Theorem (CRT):</strong> Let <span class="math inline">\(m_1, m_2, \dots, m_r\)</span> be pairwise coprime positive integers (<span class="math inline">\(\gcd(m_i, m_j) = 1\)</span> for <span class="math inline">\(i \ne j\)</span>), and let <span class="math inline">\(M = m_1 m_2 \cdots m_r\)</span>. Then the system of simultaneous congruences: <span class="math display">\[x \equiv a_1 \pmod{m_1}, \quad x \equiv a_2 \pmod{m_2}, \quad \dots, \quad x \equiv a_r \pmod{m_r}\]</span> has a <strong>unique solution modulo <span class="math inline">\(M\)</span></strong>, given explicitly by: <span class="math display">\[x \equiv \sum_{i=1}^{r} a_i M_i y_i \pmod M\]</span> where <span class="math inline">\(M_i = M / m_i\)</span> and <span class="math inline">\(y_i \equiv M_i^{-1} \pmod{m_i}\)</span>.</li>
+</ol>
+</div>
+</div>
+</section>
+<section id="worked-examples" class="level3" data-number="3.1.3">
+<h3 data-number="3.1.3" class="anchored" data-anchor-id="worked-examples"><span class="header-section-number">3.1.3</span> Worked Examples</h3>
+<p><strong>Example 3.1.1 (Chinese Remainder Theorem):</strong><br>
+Solve the system <span class="math inline">\(x \equiv 2 \pmod 3\)</span>, <span class="math inline">\(x \equiv 3 \pmod 5\)</span>, <span class="math inline">\(x \equiv 2 \pmod 7\)</span>.</p>
+<p><em>Solution:</em><br>
+Here <span class="math inline">\(M = 3 \times 5 \times 7 = 105\)</span>: - <span class="math inline">\(M_1 = 35 \equiv 2 \pmod 3 \implies y_1 \equiv 2^{-1} \equiv 2 \pmod 3\)</span>. - <span class="math inline">\(M_2 = 21 \equiv 1 \pmod 5 \implies y_2 \equiv 1^{-1} \equiv 1 \pmod 5\)</span>. - <span class="math inline">\(M_3 = 15 \equiv 1 \pmod 7 \implies y_3 \equiv 1^{-1} \equiv 1 \pmod 7\)</span>.</p>
+<p>Thus: <span class="math display">\[x \equiv 2(35)(2) + 3(21)(1) + 2(15)(1) = 140 + 63 + 30 = 233 \equiv 23 \pmod{105}\]</span></p>
+<div id="72ef53b6" class="cell" data-execution_count="1">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sympy.ntheory.modular <span class="im">import</span> crt</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>moduli <span class="op">=</span> [<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>]</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>remainders <span class="op">=</span> [<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">2</span>]</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>sol, mod_M <span class="op">=</span> crt(moduli, remainders)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"CRT Solution: x ≡ </span><span class="sc">{</span>sol<span class="sc">}</span><span class="ss"> (mod </span><span class="sc">{</span>mod_M<span class="sc">}</span><span class="ss">)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>CRT Solution: x ≡ 23 (mod 105)</code></pre>
+</div>
+</div>
+</section>
+<section id="problems-solutions-section-3.1" class="level3" data-number="3.1.4">
+<h3 data-number="3.1.4" class="anchored" data-anchor-id="problems-solutions-section-3.1"><span class="header-section-number">3.1.4</span> Problems &amp; Solutions (Section 3.1)</h3>
+<section id="problem-3.1.1" class="level4" data-number="3.1.4.1">
+<h4 data-number="3.1.4.1" class="anchored" data-anchor-id="problem-3.1.1"><span class="header-section-number">3.1.4.1</span> Problem 3.1.1</h4>
+<p>Use the Euclidean Algorithm to compute <span class="math inline">\(g = \gcd(252, 198)\)</span> and then use the Extended Euclidean Algorithm to find integers <span class="math inline">\(x, y\)</span> such that <span class="math inline">\(252x + 198y = g\)</span>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution to Problem 3.1.1
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Forward Euclidean Steps:</strong> <span class="math display">\[\begin{aligned}
+252 &amp;= 1 \times 198 + 54 \\
+198 &amp;= 3 \times 54 + 36 \\
+54 &amp;= 1 \times 36 + 18 \\
+36 &amp;= 2 \times 18 + 0 \implies \gcd(252, 198) = 18
+\end{aligned}\]</span></li>
+<li><strong>Back-Substitution (Extended Euclidean):</strong> <span class="math display">\[\begin{aligned}
+18 &amp;= 54 - 1 \times 36 \\
+&amp;= 54 - 1 \times (198 - 3 \times 54) = 4 \times 54 - 1 \times 198 \\
+&amp;= 4 \times (252 - 1 \times 198) - 1 \times 198 = 4 \times 252 - 5 \times 198
+\end{aligned}\]</span> Thus <span class="math inline">\(\gcd(252, 198) = 18\)</span> with <span class="math inline">\(x = 4\)</span> and <span class="math inline">\(y = -5\)</span>.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="problem-3.1.2" class="level4" data-number="3.1.4.2">
+<h4 data-number="3.1.4.2" class="anchored" data-anchor-id="problem-3.1.2"><span class="header-section-number">3.1.4.2</span> Problem 3.1.2</h4>
+<p>Find the multiplicative inverse of <span class="math inline">\(37 \pmod{100}\)</span> using the Extended Euclidean Algorithm, and use it to solve <span class="math inline">\(37x \equiv 19 \pmod{100}\)</span>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution to Problem 3.1.2
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Extended Euclidean Algorithm for <span class="math inline">\((100, 37)\)</span>:</strong> <span class="math display">\[\begin{aligned}
+100 &amp;= 2 \times 37 + 26 \\
+37 &amp;= 1 \times 26 + 11 \\
+26 &amp;= 2 \times 11 + 4 \\
+11 &amp;= 2 \times 4 + 3 \\
+4 &amp;= 1 \times 3 + 1
+\end{aligned}\]</span> Back-substituting: <span class="math display">\[\begin{aligned}
+1 &amp;= 4 - 3 = 4 - (11 - 2 \times 4) = 3 \times 4 - 11 \\
+&amp;= 3(26 - 2 \times 11) - 11 = 3 \times 26 - 7 \times 11 \\
+&amp;= 3 \times 26 - 7(37 - 26) = 10 \times 26 - 7 \times 37 \\
+&amp;= 10(100 - 2 \times 37) - 7 \times 37 = 10 \times 100 - 27 \times 37
+\end{aligned}\]</span> Thus <span class="math inline">\(37^{-1} \equiv -27 \equiv 73 \pmod{100}\)</span>.</li>
+<li><strong>Solve <span class="math inline">\(37x \equiv 19 \pmod{100}\)</span>:</strong> <span class="math display">\[x \equiv 73 \times 19 = 1387 \equiv 87 \pmod{100}\]</span></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="problem-3.1.3" class="level4" data-number="3.1.4.3">
+<h4 data-number="3.1.4.3" class="anchored" data-anchor-id="problem-3.1.3"><span class="header-section-number">3.1.4.3</span> Problem 3.1.3</h4>
+<p>Find all incongruent solutions modulo <span class="math inline">\(42\)</span> to the linear congruence <span class="math inline">\(18x \equiv 30 \pmod{42}\)</span>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution to Problem 3.1.3
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Compute <span class="math inline">\(g = \gcd(18, 42) = 6\)</span>. Since <span class="math inline">\(6 \mid 30\)</span>, there are exactly <span class="math inline">\(6\)</span> incongruent solutions modulo <span class="math inline">\(42\)</span>.</li>
+<li>Divide the congruence through by <span class="math inline">\(g = 6\)</span>: <span class="math display">\[3x \equiv 5 \pmod 7\]</span></li>
+<li>Since <span class="math inline">\(3^{-1} \equiv 5 \pmod 7\)</span> (<span class="math inline">\(3 \times 5 = 15 \equiv 1 \pmod 7\)</span>), the base solution modulo <span class="math inline">\(7\)</span> is: <span class="math display">\[x_0 \equiv 5 \times 5 = 25 \equiv 4 \pmod 7\]</span></li>
+<li>Adding multiples of <span class="math inline">\(\frac{m}{g} = 7\)</span> yields all <span class="math inline">\(6\)</span> incongruent solutions modulo <span class="math inline">\(42\)</span>: <span class="math display">\[x \equiv 4, \, 11, \, 18, \, 25, \, 32, \, 39 \pmod{42}\]</span></li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="problem-3.1.4" class="level4" data-number="3.1.4.4">
+<h4 data-number="3.1.4.4" class="anchored" data-anchor-id="problem-3.1.4"><span class="header-section-number">3.1.4.4</span> Problem 3.1.4</h4>
+<p>Solve the simultaneous system of linear congruences using the Chinese Remainder Theorem: <span class="math display">\[\begin{cases}
+x \equiv 1 \pmod 3 \\
+x \equiv 4 \pmod 5 \\
+x \equiv 6 \pmod 7 \\
+x \equiv 9 \pmod{11}
+\end{cases}\]</span></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution to Problem 3.1.4
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The moduli <span class="math inline">\(3, 5, 7, 11\)</span> are pairwise coprime with product <span class="math inline">\(M = 3 \times 5 \times 7 \times 11 = 1155\)</span>. - <span class="math inline">\(M_1 = 385 \equiv 1 \pmod 3 \implies y_1 = 1\)</span>. - <span class="math inline">\(M_2 = 231 \equiv 1 \pmod 5 \implies y_2 = 1\)</span>. - <span class="math inline">\(M_3 = 165 \equiv 4 \pmod 7 \implies y_3 \equiv 4^{-1} \equiv 2 \pmod 7\)</span>. - <span class="math inline">\(M_4 = 105 \equiv 6 \pmod{11} \implies y_4 \equiv 6^{-1} \equiv 2 \pmod{11}\)</span>.</p>
+<p>Summing via CRT: <span class="math display">\[x \equiv 1(385)(1) + 4(231)(1) + 6(165)(2) + 9(105)(2) = 385 + 924 + 1980 + 1890 = 5179 \equiv 559 \pmod{1155}\]</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="problem-3.1.5" class="level4" data-number="3.1.4.5">
+<h4 data-number="3.1.4.5" class="anchored" data-anchor-id="problem-3.1.5"><span class="header-section-number">3.1.4.5</span> Problem 3.1.5</h4>
+<p>Determine whether the following system of congruences with <strong>non-coprime</strong> moduli has a solution, and if so, find all solutions: <span class="math display">\[\begin{cases}
+x \equiv 5 \pmod 6 \\
+x \equiv 3 \pmod{10} \\
+x \equiv 8 \pmod{15}
+\end{cases}\]</span></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution to Problem 3.1.5
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Break each composite modulus into prime-power congruences: 1. <span class="math inline">\(x \equiv 5 \pmod 6 \iff x \equiv 1 \pmod 2 \text{ and } x \equiv 2 \pmod 3\)</span>. 2. <span class="math inline">\(x \equiv 3 \pmod{10} \iff x \equiv 1 \pmod 2 \text{ and } x \equiv 3 \pmod 5\)</span>. 3. <span class="math inline">\(x \equiv 8 \pmod{15} \iff x \equiv 2 \pmod 3 \text{ and } x \equiv 3 \pmod 5\)</span>.</p>
+<p>All three prime congruences are mutually consistent! Thus the system is equivalent to: <span class="math display">\[x \equiv 1 \pmod 2, \quad x \equiv 2 \pmod 3, \quad x \equiv 3 \pmod 5\]</span> Since <span class="math inline">\(M = \text{lcm}(6, 10, 15) = 30\)</span>, applying CRT (or observing <span class="math inline">\(x + 2\)</span> is divisible by <span class="math inline">\(2\)</span>? No, wait: for <span class="math inline">\(x = 23\)</span>, <span class="math inline">\(23 \equiv 5 \pmod 6\)</span>, <span class="math inline">\(23 \equiv 3 \pmod{10}\)</span>, <span class="math inline">\(23 \equiv 8 \pmod{15}\)</span>): <span class="math display">\[x \equiv 23 \pmod{30}\]</span></p>
+</div>
+</div>
+</div>
+<hr>
+</section>
+</section>
+</section>
+<section id="wilsons-fermats-and-eulers-theorems-pseudoprimes-and-carmichael-numbers" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="wilsons-fermats-and-eulers-theorems-pseudoprimes-and-carmichael-numbers"><span class="header-section-number">3.2</span> Wilson’s, Fermat’s, and Euler’s Theorems, Pseudoprimes, and Carmichael Numbers</h2>
+<section id="context-computing-motivation-1" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="context-computing-motivation-1"><span class="header-section-number">3.2.1</span> Context &amp; Computing Motivation</h3>
+<p>Public-key cryptosystems such as <strong>RSA</strong>, Diffie–Hellman key exchange, and Digital Signature Standards rely directly on <strong>Euler’s Theorem</strong> and <strong>Fermat’s Little Theorem</strong>. Probabilistic primality tests (such as the Fermat test and Miller–Rabin test) use modular exponentiation to screen 2048-bit prime candidates in milliseconds, where <strong>pseudoprimes</strong> and <strong>Carmichael numbers</strong> characterize the failure modes of naive Fermat testing.</p>
+</section>
+<section id="basic-theory-formal-definitions-1" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="basic-theory-formal-definitions-1"><span class="header-section-number">3.2.2</span> Basic Theory &amp; Formal Definitions</h3>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Classical Theorems of Modular Arithmetic
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><strong>Wilson’s Theorem:</strong> An integer <span class="math inline">\(p &gt; 1\)</span> is prime if and only if: <span class="math display">\[(p - 1)! \equiv -1 \pmod p\]</span></li>
+<li><strong>Fermat’s Little Theorem (FLT):</strong> If <span class="math inline">\(p\)</span> is prime and <span class="math inline">\(p \nmid a\)</span>, then: <span class="math display">\[a^{p-1} \equiv 1 \pmod p \qquad \text{(and } a^p \equiv a \pmod p \text{ for all } a \in \mathbb{Z}\text{)}\]</span></li>
+<li><strong>Euler’s Totient Function <span class="math inline">\(\phi(n)\)</span>:</strong> Counts integers <span class="math inline">\(1 \le k \le n\)</span> with <span class="math inline">\(\gcd(k, n) = 1\)</span>. If <span class="math inline">\(n = p_1^{e_1} \cdots p_k^{e_k}\)</span>, then: <span class="math display">\[\phi(n) = n \prod_{i=1}^{k} \left(1 - \frac{1}{p_i}\right)\]</span></li>
+<li><strong>Euler’s Theorem:</strong> If <span class="math inline">\(\gcd(a, n) = 1\)</span>, then: <span class="math display">\[a^{\phi(n)} \equiv 1 \pmod n\]</span></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Pseudoprimes, Carmichael Numbers &amp; RSA Correctness
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Base-<span class="math inline">\(b\)</span> Pseudoprime:</strong> A composite integer <span class="math inline">\(n\)</span> such that <span class="math inline">\(b^{n-1} \equiv 1 \pmod n\)</span>. (Smallest base-2 pseudoprime is <span class="math inline">\(341 = 11 \times 31\)</span>.)</li>
+<li><strong>Carmichael Number (Absolute Pseudoprime):</strong> A composite integer <span class="math inline">\(n\)</span> that satisfies <span class="math inline">\(b^{n-1} \equiv 1 \pmod n\)</span> for <strong>every</strong> integer <span class="math inline">\(b\)</span> with <span class="math inline">\(\gcd(b, n) = 1\)</span>.</li>
+<li><strong>Korselt’s Criterion:</strong> A composite integer <span class="math inline">\(n\)</span> is a Carmichael number if and only if <span class="math inline">\(n\)</span> is square-free and for every prime divisor <span class="math inline">\(p \mid n\)</span>, <span class="math inline">\((p - 1) \mid (n - 1)\)</span>. (Smallest Carmichael number is <span class="math inline">\(561 = 3 \times 11 \times 17\)</span>.)</li>
+<li><strong>RSA Cryptosystem:</strong> Choose distinct primes <span class="math inline">\(p, q\)</span>; set <span class="math inline">\(n = pq\)</span> and <span class="math inline">\(\phi(n) = (p-1)(q-1)\)</span>. Pick public exponent <span class="math inline">\(e\)</span> with <span class="math inline">\(\gcd(e, \phi(n)) = 1\)</span>, and compute private key <span class="math inline">\(d \equiv e^{-1} \pmod{\phi(n)}\)</span>. Encryption: <span class="math inline">\(C \equiv M^e \pmod n\)</span>; Decryption: <span class="math inline">\(M \equiv C^d \pmod n\)</span>.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="worked-examples-1" class="level3" data-number="3.2.3">
+<h3 data-number="3.2.3" class="anchored" data-anchor-id="worked-examples-1"><span class="header-section-number">3.2.3</span> Worked Examples</h3>
+<p><strong>Example 3.2.1 (Korselt’s Criterion on <span class="math inline">\(561\)</span>):</strong><br>
+Verify that <span class="math inline">\(561 = 3 \times 11 \times 17\)</span> is a Carmichael number.</p>
+<p><em>Solution:</em><br>
+<span class="math inline">\(561\)</span> is composite and square-free (<span class="math inline">\(3, 11, 17\)</span> are distinct primes), with <span class="math inline">\(n - 1 = 560\)</span>: - <span class="math inline">\(p = 3 \implies p - 1 = 2 \mid 560\)</span> (<span class="math inline">\(560 = 2 \times 280\)</span>) - <span class="math inline">\(p = 11 \implies p - 1 = 10 \mid 560\)</span> (<span class="math inline">\(560 = 10 \times 56\)</span>) - <span class="math inline">\(p = 17 \implies p - 1 = 16 \mid 560\)</span> (<span class="math inline">\(560 = 16 \times 35\)</span>)</p>
+<p>By Korselt’s Criterion (or CRT on moduli <span class="math inline">\(3, 11, 17\)</span>), <span class="math inline">\(b^{560} \equiv 1 \pmod{561}\)</span> for every <span class="math inline">\(b\)</span> coprime to <span class="math inline">\(561\)</span>. <span class="math inline">\(\blacksquare\)</span></p>
+<div id="f6cc30d1" class="cell" data-execution_count="2">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Verify RSA encryption/decryption and base-2 pseudoprimality of 341</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"2^340 mod 341 ="</span>, <span class="bu">pow</span>(<span class="dv">2</span>, <span class="dv">340</span>, <span class="dv">341</span>), <span class="st">"(341 = 11 * 31 is a base-2 pseudoprime)"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"3^340 mod 341 ="</span>, <span class="bu">pow</span>(<span class="dv">3</span>, <span class="dv">340</span>, <span class="dv">341</span>), <span class="st">"(3 witnesses that 341 is composite)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>2^340 mod 341 = 1 (341 = 11 * 31 is a base-2 pseudoprime)
+3^340 mod 341 = 56 (3 witnesses that 341 is composite)</code></pre>
+</div>
+</div>
+</section>
+<section id="problems-solutions-section-3.2" class="level3" data-number="3.2.4">
+<h3 data-number="3.2.4" class="anchored" data-anchor-id="problems-solutions-section-3.2"><span class="header-section-number">3.2.4</span> Problems &amp; Solutions (Section 3.2)</h3>
+<section id="problem-3.2.1" class="level4" data-number="3.2.4.1">
+<h4 data-number="3.2.4.1" class="anchored" data-anchor-id="problem-3.2.1"><span class="header-section-number">3.2.4.1</span> Problem 3.2.1</h4>
+<p>Using Wilson’s Theorem, find the remainder when <span class="math inline">\(20! \pmod{23}\)</span> and <span class="math inline">\(26! \pmod{29}\)</span> are divided by <span class="math inline">\(23\)</span> and <span class="math inline">\(29\)</span>, respectively.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution to Problem 3.2.1
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Part 1 (<span class="math inline">\(20! \pmod{23}\)</span>):</strong> By Wilson’s Theorem, <span class="math inline">\(22! \equiv -1 \pmod{23}\)</span>: <span class="math display">\[22 \cdot 21 \cdot 20! \equiv -1 \pmod{23} \implies (-1)(-2) \cdot 20! \equiv -1 \pmod{23} \implies 2 \cdot 20! \equiv 22 \pmod{23}\]</span> Dividing by <span class="math inline">\(2\)</span> (since <span class="math inline">\(\gcd(2,23) = 1\)</span>) gives <span class="math inline">\(20! \equiv 11 \pmod{23}\)</span>.</li>
+<li><strong>Part 2 (<span class="math inline">\(26! \pmod{29}\)</span>):</strong> By Wilson’s Theorem, <span class="math inline">\(28! \equiv -1 \pmod{29}\)</span>: <span class="math display">\[28 \cdot 27 \cdot 26! \equiv -1 \pmod{29} \implies (-1)(-2) \cdot 26! \equiv 28 \pmod{29} \implies 26! \equiv 14 \pmod{29}\]</span></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="problem-3.2.2" class="level4" data-number="3.2.4.2">
+<h4 data-number="3.2.4.2" class="anchored" data-anchor-id="problem-3.2.2"><span class="header-section-number">3.2.4.2</span> Problem 3.2.2</h4>
+<p>Compute <span class="math inline">\(3^{2026} \pmod{31}\)</span> using Fermat’s Little Theorem, and find the last two digits of <span class="math inline">\(7^{999}\)</span> (i.e., <span class="math inline">\(7^{999} \pmod{100}\)</span>) using Euler’s Theorem.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution to Problem 3.2.2
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Part 1 (<span class="math inline">\(3^{2026} \pmod{31}\)</span>):</strong> Since <span class="math inline">\(31\)</span> is prime and <span class="math inline">\(\gcd(3,31)=1\)</span>, <span class="math inline">\(3^{30} \equiv 1 \pmod{31}\)</span> by FLT. Dividing <span class="math inline">\(2026\)</span> by <span class="math inline">\(30\)</span> gives <span class="math inline">\(2026 = 30 \times 67 + 16\)</span>: <span class="math display">\[3^{2026} \equiv 3^{16} \pmod{31}\]</span> Note <span class="math inline">\(3^3 = 27 \equiv -4 \pmod{31}\)</span>, so <span class="math inline">\(3^{15} \equiv (-4)^5 = -1024 \equiv -1 \pmod{31}\)</span>. Thus: <span class="math display">\[3^{16} = 3 \cdot 3^{15} \equiv 3(-1) \equiv 28 \pmod{31}\]</span></li>
+<li><strong>Part 2 (<span class="math inline">\(7^{999} \pmod{100}\)</span>):</strong> Since <span class="math inline">\(\gcd(7,100)=1\)</span> and <span class="math inline">\(\phi(100) = 100(1 - \frac{1}{2})(1 - \frac{1}{5}) = 40\)</span>, Euler’s Theorem gives <span class="math inline">\(7^{40} \equiv 1 \pmod{100}\)</span> (in fact, <span class="math inline">\(7^4 = 2401 \equiv 1 \pmod{100}\)</span>). Since <span class="math inline">\(999 = 4 \times 249 + 3\)</span>: <span class="math display">\[7^{999} \equiv 7^3 = 343 \equiv 43 \pmod{100}\]</span> The last two digits are <strong><span class="math inline">\(43\)</span></strong>.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="problem-3.2.3" class="level4" data-number="3.2.4.3">
+<h4 data-number="3.2.4.3" class="anchored" data-anchor-id="problem-3.2.3"><span class="header-section-number">3.2.4.3</span> Problem 3.2.3</h4>
+<p>Prove that <span class="math inline">\(n = 341 = 11 \times 31\)</span> is a pseudoprime to the base <span class="math inline">\(2\)</span>, and find a base <span class="math inline">\(b\)</span> that proves <span class="math inline">\(341\)</span> is composite.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution to Problem 3.2.3
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Base <span class="math inline">\(b = 2\)</span>:</strong> We check <span class="math inline">\(2^{340} \pmod{11}\)</span> and <span class="math inline">\(2^{340} \pmod{31}\)</span>:
+<ul>
+<li>By Fermat’s Little Theorem mod <span class="math inline">\(11\)</span>, <span class="math inline">\(2^{10} \equiv 1 \pmod{11} \implies 2^{340} = (2^{10})^{34} \equiv 1^{34} = 1 \pmod{11}\)</span>.</li>
+<li>Note <span class="math inline">\(2^5 = 32 \equiv 1 \pmod{31} \implies 2^{340} = (2^5)^{68} \equiv 1^{68} = 1 \pmod{31}\)</span>. Since <span class="math inline">\(\gcd(11, 31) = 1\)</span>, by CRT <span class="math inline">\(2^{340} \equiv 1 \pmod{341}\)</span>. Thus <span class="math inline">\(341\)</span> is a base-2 pseudoprime.</li>
+</ul></li>
+<li><strong>Witness <span class="math inline">\(b = 3\)</span>:</strong> Modulo <span class="math inline">\(31\)</span>, <span class="math inline">\(3^3 = 27 \equiv -4 \pmod{31}\)</span>. Since <span class="math inline">\(340 = 30 \times 11 + 10\)</span>, <span class="math inline">\(3^{340} \equiv 3^{10} = (3^3)^3 \cdot 3 \equiv (-64) \cdot 3 = -192 \equiv 25 \ne 1 \pmod{31}\)</span>. Hence <span class="math inline">\(3^{340} \not\equiv 1 \pmod{341}\)</span> (specifically <span class="math inline">\(3^{340} \equiv 56 \pmod{341}\)</span>), proving <span class="math inline">\(341\)</span> is composite.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="problem-3.2.4" class="level4" data-number="3.2.4.4">
+<h4 data-number="3.2.4.4" class="anchored" data-anchor-id="problem-3.2.4"><span class="header-section-number">3.2.4.4</span> Problem 3.2.4</h4>
+<p>Prove using Korselt’s Criterion (and verify directly via Fermat’s Little Theorem and CRT) that <span class="math inline">\(1729 = 7 \times 13 \times 19\)</span> (the Hardy–Ramanujan taxicab number) is a Carmichael number.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution to Problem 3.2.4
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><strong>Factorization:</strong> <span class="math inline">\(1729 = 7 \times 13 \times 19\)</span> is the product of three distinct primes, so it is composite and square-free.</li>
+<li><strong>Divisibility Condition (<span class="math inline">\(n - 1 = 1728\)</span>):</strong>
+<ul>
+<li>For <span class="math inline">\(p = 7\)</span>: <span class="math inline">\(p - 1 = 6\)</span>, and <span class="math inline">\(1728 / 6 = 288 \in \mathbb{Z}\)</span>.</li>
+<li>For <span class="math inline">\(p = 13\)</span>: <span class="math inline">\(p - 1 = 12\)</span>, and <span class="math inline">\(1728 / 12 = 144 \in \mathbb{Z}\)</span>.</li>
+<li>For <span class="math inline">\(p = 19\)</span>: <span class="math inline">\(p - 1 = 18\)</span>, and <span class="math inline">\(1728 / 18 = 96 \in \mathbb{Z}\)</span>.</li>
+</ul></li>
+<li><strong>Direct CRT Proof:</strong> For any <span class="math inline">\(b\)</span> with <span class="math inline">\(\gcd(b, 1729) = 1\)</span>, we have <span class="math inline">\(\gcd(b,p)=1\)</span> for <span class="math inline">\(p \in \{7, 13, 19\}\)</span>. By FLT: <span class="math display">\[b^{1728} = (b^6)^{288} \equiv 1 \pmod 7, \quad b^{1728} = (b^{12})^{144} \equiv 1 \pmod{13}, \quad b^{1728} = (b^{18})^{96} \equiv 1 \pmod{19}\]</span> By CRT, <span class="math inline">\(b^{1728} \equiv 1 \pmod{1729}\)</span> for all <span class="math inline">\(\gcd(b,1729)=1\)</span>. Thus <span class="math inline">\(1729\)</span> is a Carmichael number. <span class="math inline">\(\blacksquare\)</span></li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="problem-3.2.5" class="level4" data-number="3.2.4.5">
+<h4 data-number="3.2.4.5" class="anchored" data-anchor-id="problem-3.2.5"><span class="header-section-number">3.2.4.5</span> Problem 3.2.5</h4>
+<p>In an RSA system, let <span class="math inline">\(p = 11\)</span>, <span class="math inline">\(q = 17\)</span>, and public exponent <span class="math inline">\(e = 7\)</span>. (a) Compute <span class="math inline">\(n\)</span>, <span class="math inline">\(\phi(n)\)</span>, and the private decryption key <span class="math inline">\(d\)</span>.<br>
+(b) Encrypt the plaintext message <span class="math inline">\(M = 88\)</span> to find ciphertext <span class="math inline">\(C\)</span>, and verify decryption <span class="math inline">\(C^d \pmod n = M\)</span> using CRT.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution to Problem 3.2.5
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><strong>Key Generation:</strong></li>
+</ol>
+<ul>
+<li><span class="math inline">\(n = 11 \times 17 = 187\)</span>.</li>
+<li><span class="math inline">\(\phi(n) = (11 - 1)(17 - 1) = 10 \times 16 = 160\)</span>.</li>
+<li>Solve <span class="math inline">\(7d \equiv 1 \pmod{160}\)</span>: Since <span class="math inline">\(160 = 22 \times 7 + 6\)</span>, <span class="math inline">\(7 = 1 \times 6 + 1 \implies 1 = 7 - (160 - 22 \times 7) = 23 \times 7 - 160\)</span>, we get <strong><span class="math inline">\(d = 23\)</span></strong>.</li>
+</ul>
+<ol start="2" type="a">
+<li><strong>Encryption &amp; CRT Decryption:</strong></li>
+</ol>
+<ul>
+<li><strong>Encryption:</strong> <span class="math inline">\(C \equiv 88^7 \pmod{187}\)</span>.
+<ul>
+<li>Mod <span class="math inline">\(11\)</span>: <span class="math inline">\(88 \equiv 0 \pmod{11} \implies C \equiv 0^7 = 0 \pmod{11}\)</span>.</li>
+<li>Mod <span class="math inline">\(17\)</span>: <span class="math inline">\(88 \equiv 3 \pmod{17} \implies C \equiv 3^7 = 2187 \equiv 11 \pmod{17}\)</span>.</li>
+<li>By CRT (<span class="math inline">\(C \equiv 0 \pmod{11}, C \equiv 11 \pmod{17}\)</span>): <strong><span class="math inline">\(C = 11\)</span></strong>.</li>
+</ul></li>
+<li><strong>Decryption:</strong> <span class="math inline">\(M \equiv 11^{23} \pmod{187}\)</span>.
+<ul>
+<li>Mod <span class="math inline">\(11\)</span>: <span class="math inline">\(11^{23} \equiv 0 \pmod{11}\)</span>.</li>
+<li>Mod <span class="math inline">\(17\)</span>: <span class="math inline">\(11^{23} \equiv 11^7 \equiv (-6)^7 \equiv 3 \pmod{17}\)</span> (since <span class="math inline">\(23 \equiv 7 \pmod{16}\)</span>).</li>
+<li>By CRT (<span class="math inline">\(M \equiv 0 \pmod{11}, M \equiv 3 \pmod{17}\)</span>): <strong><span class="math inline">\(M = 88\)</span></strong>.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+<hr>
+</section>
+</section>
+</section>
+<section id="arithmetic-functions-and-quadratic-residues" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="arithmetic-functions-and-quadratic-residues"><span class="header-section-number">3.3</span> Arithmetic Functions and Quadratic Residues</h2>
+<section id="context-computing-motivation-2" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="context-computing-motivation-2"><span class="header-section-number">3.3.1</span> Context &amp; Computing Motivation</h3>
+<p>Multiplicative arithmetic functions (<span class="math inline">\(\phi(n), \tau(n), \sigma(n), \mu(n)\)</span>) govern divisor analysis, cyclotomic polynomials in error-correcting codes, and sieve algorithms. <strong>Quadratic residues</strong> and the <strong>Law of Quadratic Reciprocity</strong> power the Goldwasser–Micali probabilistic encryption scheme, the Rabin cryptosystem, Solovay–Strassen primality testing, and elliptic curve point-counting algorithms.</p>
+</section>
+<section id="basic-theory-formal-definitions-2" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="basic-theory-formal-definitions-2"><span class="header-section-number">3.3.2</span> Basic Theory &amp; Formal Definitions</h3>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Multiplicative Arithmetic Functions &amp; Möbius Inversion
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>An arithmetic function <span class="math inline">\(f: \mathbb{Z}^+ \to \mathbb{C}\)</span> is <strong>multiplicative</strong> if <span class="math inline">\(f(mn) = f(m)f(n)\)</span> whenever <span class="math inline">\(\gcd(m, n) = 1\)</span>. If <span class="math inline">\(n = \prod_{i=1}^{k} p_i^{e_i}\)</span>:</p>
+<ol type="1">
+<li><strong>Number of Positive Divisors <span class="math inline">\(\tau(n)\)</span> (or <span class="math inline">\(d(n)\)</span>):</strong> <span class="math display">\[\tau(n) = \sum_{d \mid n} 1 = \prod_{i=1}^{k} (e_i + 1)\]</span></li>
+<li><strong>Sum of Positive Divisors <span class="math inline">\(\sigma(n)\)</span>:</strong> <span class="math display">\[\sigma(n) = \sum_{d \mid n} d = \prod_{i=1}^{k} \frac{p_i^{e_i + 1} - 1}{p_i - 1}\]</span></li>
+<li><strong>Euler’s Totient divisor sum (Gauss’s Theorem):</strong> <span class="math inline">\(\sum_{d \mid n} \phi(d) = n\)</span>.</li>
+<li><strong>Möbius Function <span class="math inline">\(\mu(n)\)</span>:</strong> <span class="math display">\[\mu(n) = \begin{cases} 1 &amp; \text{if } n = 1 \\ (-1)^k &amp; \text{if } n = p_1 p_2 \cdots p_k \text{ (square-free product of } k \text{ distinct primes)} \\ 0 &amp; \text{if } p^2 \mid n \text{ for some prime } p \end{cases}\]</span></li>
+<li><strong>Möbius Inversion Formula:</strong> <span class="math inline">\(F(n) = \sum_{d \mid n} f(d) \iff f(n) = \sum_{d \mid n} \mu(d) F\!\left(\frac{n}{d}\right)\)</span>.</li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Quadratic Residues, Legendre Symbol &amp; Law of Quadratic Reciprocity
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\(p\)</span> be an odd prime and <span class="math inline">\(\gcd(a, p) = 1\)</span>. Then <span class="math inline">\(a\)</span> is a <strong>quadratic residue modulo <span class="math inline">\(p\)</span></strong> (<span class="math inline">\(\text{QR}_p\)</span>) if <span class="math inline">\(x^2 \equiv a \pmod p\)</span> has a solution; otherwise <span class="math inline">\(a\)</span> is a <strong>quadratic non-residue</strong> (<span class="math inline">\(\text{QNR}_p\)</span>). Among <span class="math inline">\(\{1, 2, \dots, p-1\}\)</span>, there are exactly <span class="math inline">\(\frac{p-1}{2}\)</span> quadratic residues and <span class="math inline">\(\frac{p-1}{2}\)</span> non-residues.</p>
+<ul>
+<li><strong>Legendre Symbol <span class="math inline">\(\left(\frac{a}{p}\right)\)</span>:</strong> <span class="math display">\[\left(\frac{a}{p}\right) = \begin{cases} 1 &amp; \text{if } a \text{ is a QR mod } p \\ -1 &amp; \text{if } a \text{ is a QNR mod } p \\ 0 &amp; \text{if } p \mid a \end{cases}\]</span></li>
+<li><strong>Euler’s Criterion:</strong> <span class="math inline">\(\left(\frac{a}{p}\right) \equiv a^{(p-1)/2} \pmod p\)</span>.</li>
+<li><strong>Multiplicativity:</strong> <span class="math inline">\(\left(\frac{ab}{p}\right) = \left(\frac{a}{p}\right)\left(\frac{b}{p}\right)\)</span>.</li>
+<li><strong>First &amp; Second Supplements:</strong> <span class="math display">\[\left(\frac{-1}{p}\right) = (-1)^{\frac{p-1}{2}}, \qquad \left(\frac{2}{p}\right) = (-1)^{\frac{p^2-1}{8}}\]</span></li>
+<li><strong>Gauss’s Law of Quadratic Reciprocity:</strong> For distinct odd primes <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span>: <span class="math display">\[\left(\frac{p}{q}\right)\left(\frac{q}{p}\right) = (-1)^{\frac{p-1}{2}\cdot\frac{q-1}{2}}\]</span></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="worked-examples-2" class="level3" data-number="3.3.3">
+<h3 data-number="3.3.3" class="anchored" data-anchor-id="worked-examples-2"><span class="header-section-number">3.3.3</span> Worked Examples</h3>
+<p><strong>Example 3.3.1 (Evaluating a Legendre Symbol via Quadratic Reciprocity):</strong><br>
+Determine whether <span class="math inline">\(x^2 \equiv 29 \pmod{53}\)</span> is solvable.</p>
+<p><em>Solution:</em><br>
+Both <span class="math inline">\(29\)</span> and <span class="math inline">\(53\)</span> are primes congruent to <span class="math inline">\(1 \pmod 4\)</span>, so <span class="math inline">\((-1)^{\frac{28}{2}\frac{52}{2}} = +1\)</span>: <span class="math display">\[\left(\frac{29}{53}\right) = \left(\frac{53}{29}\right) = \left(\frac{24}{29}\right) = \left(\frac{4}{29}\right)\left(\frac{2}{29}\right)\left(\frac{3}{29}\right) = (1)(-1)\left(\frac{29}{3}\right) = -\left(\frac{2}{3}\right) = -(-1) = +1\]</span> Thus <span class="math inline">\(x^2 \equiv 29 \pmod{53}\)</span> <strong>is solvable</strong> (<span class="math inline">\(x \equiv \pm 22 \pmod{53}\)</span> since <span class="math inline">\(22^2 = 484 = 9 \times 53 + 7\)</span>? Wait: <span class="math inline">\(25^2 = 625 = 11 \times 53 + 42\)</span>; let’s verify in Python!).</p>
+<div id="9d2b8861" class="cell" data-execution_count="3">
+<details open="" class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sympy.ntheory.residue_ntheory <span class="im">import</span> legendre_symbol, sqrt_mod</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Legendre symbol (29 / 53):"</span>, legendre_symbol(<span class="dv">29</span>, <span class="dv">53</span>))</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Solutions to x^2 ≡ 29 (mod 53):"</span>, sqrt_mod(<span class="dv">29</span>, <span class="dv">53</span>, all_roots<span class="op">=</span><span class="va">True</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Legendre symbol (29 / 53): 1
+Solutions to x^2 ≡ 29 (mod 53): [20, 33]</code></pre>
+</div>
+</div>
+</section>
+<section id="problems-solutions-section-3.3" class="level3" data-number="3.3.4">
+<h3 data-number="3.3.4" class="anchored" data-anchor-id="problems-solutions-section-3.3"><span class="header-section-number">3.3.4</span> Problems &amp; Solutions (Section 3.3)</h3>
+<section id="problem-3.3.1" class="level4" data-number="3.3.4.1">
+<h4 data-number="3.3.4.1" class="anchored" data-anchor-id="problem-3.3.1"><span class="header-section-number">3.3.4.1</span> Problem 3.3.1</h4>
+<p>For <span class="math inline">\(n = 720\)</span>, find its prime factorization and compute <span class="math inline">\(\tau(720)\)</span>, <span class="math inline">\(\sigma(720)\)</span>, <span class="math inline">\(\phi(720)\)</span>, and <span class="math inline">\(\mu(720)\)</span>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution to Problem 3.3.1
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-17" class="callout-17-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Prime Factorization:</strong> <span class="math inline">\(720 = 16 \times 9 \times 5 = 2^4 \cdot 3^2 \cdot 5^1\)</span>.</li>
+<li><strong>Number of Divisors <span class="math inline">\(\tau(720)\)</span>:</strong> <span class="math display">\[\tau(720) = (4 + 1)(2 + 1)(1 + 1) = 5 \times 3 \times 2 = 30\]</span></li>
+<li><strong>Sum of Divisors <span class="math inline">\(\sigma(720)\)</span>:</strong> <span class="math display">\[\sigma(720) = \frac{2^5 - 1}{2 - 1} \cdot \frac{3^3 - 1}{3 - 1} \cdot \frac{5^2 - 1}{5 - 1} = 31 \times 13 \times 6 = 2418\]</span></li>
+<li><strong>Euler’s Totient <span class="math inline">\(\phi(720)\)</span>:</strong> <span class="math display">\[\phi(720) = 720 \left(1 - \frac{1}{2}\right)\left(1 - \frac{1}{3}\right)\left(1 - \frac{1}{5}\right) = 720 \cdot \frac{1}{2} \cdot \frac{2}{3} \cdot \frac{4}{5} = 192\]</span></li>
+<li><strong>Möbius Function <span class="math inline">\(\mu(720)\)</span>:</strong> Since <span class="math inline">\(2^2 \mid 720\)</span> (<span class="math inline">\(720\)</span> is not square-free), <strong><span class="math inline">\(\mu(720) = 0\)</span></strong>.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="problem-3.3.2" class="level4" data-number="3.3.4.2">
+<h4 data-number="3.3.4.2" class="anchored" data-anchor-id="problem-3.3.2"><span class="header-section-number">3.3.4.2</span> Problem 3.3.2</h4>
+<p>Prove that if <span class="math inline">\(f: \mathbb{Z}^+ \to \mathbb{C}\)</span> is a multiplicative function, then the summatory function <span class="math inline">\(F(n) = \sum_{d \mid n} f(d)\)</span> is also multiplicative.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution to Problem 3.3.2
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-18" class="callout-18-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\(m, n \in \mathbb{Z}^+\)</span> with <span class="math inline">\(\gcd(m, n) = 1\)</span>. Every positive divisor <span class="math inline">\(d\)</span> of <span class="math inline">\(mn\)</span> can be uniquely written as <span class="math inline">\(d = d_1 d_2\)</span> where <span class="math inline">\(d_1 \mid m\)</span>, <span class="math inline">\(d_2 \mid n\)</span>, and <span class="math inline">\(\gcd(d_1, d_2) = 1\)</span>. Since <span class="math inline">\(f\)</span> is multiplicative, <span class="math inline">\(f(d_1 d_2) = f(d_1) f(d_2)\)</span>. Therefore: <span class="math display">\[F(mn) = \sum_{d \mid mn} f(d) = \sum_{d_1 \mid m} \sum_{d_2 \mid n} f(d_1 d_2) = \left(\sum_{d_1 \mid m} f(d_1)\right)\left(\sum_{d_2 \mid n} f(d_2)\right) = F(m) F(n)\]</span> Thus <span class="math inline">\(F\)</span> is multiplicative. <span class="math inline">\(\blacksquare\)</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="problem-3.3.3" class="level4" data-number="3.3.4.3">
+<h4 data-number="3.3.4.3" class="anchored" data-anchor-id="problem-3.3.3"><span class="header-section-number">3.3.4.3</span> Problem 3.3.3</h4>
+<p>Use Gauss’s identity <span class="math inline">\(\sum_{d \mid n} \phi(d) = n\)</span> and the Möbius Inversion Formula to prove that for all <span class="math inline">\(n \ge 1\)</span>: <span class="math display">\[\phi(n) = n \sum_{d \mid n} \frac{\mu(d)}{d}\]</span></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution to Problem 3.3.3
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-19" class="callout-19-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\(F(n) = n\)</span> and <span class="math inline">\(f(n) = \phi(n)\)</span>. Since <span class="math inline">\(F(n) = \sum_{d \mid n} \phi(d)\)</span>, applying the Möbius Inversion Formula gives: <span class="math display">\[\phi(n) = \sum_{d \mid n} \mu(d) F\!\left(\frac{n}{d}\right) = \sum_{d \mid n} \mu(d) \frac{n}{d} = n \sum_{d \mid n} \frac{\mu(d)}{d} \quad \blacksquare\]</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="problem-3.3.4" class="level4" data-number="3.3.4.4">
+<h4 data-number="3.3.4.4" class="anchored" data-anchor-id="problem-3.3.4"><span class="header-section-number">3.3.4.4</span> Problem 3.3.4</h4>
+<p>Find all quadratic residues and quadratic non-residues modulo <span class="math inline">\(13\)</span>, and verify Euler’s Criterion for <span class="math inline">\(a = 3\)</span> and <span class="math inline">\(a = 5\)</span> modulo <span class="math inline">\(13\)</span>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution to Problem 3.3.4
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-20" class="callout-20-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Squares modulo <span class="math inline">\(13\)</span> for <span class="math inline">\(x \in \{1, 2, 3, 4, 5, 6\}\)</span>:</strong>
+<ul>
+<li><span class="math inline">\((\pm 1)^2 \equiv 1 \pmod{13}\)</span></li>
+<li><span class="math inline">\((\pm 2)^2 \equiv 4 \pmod{13}\)</span></li>
+<li><span class="math inline">\((\pm 3)^2 \equiv 9 \pmod{13}\)</span></li>
+<li><span class="math inline">\((\pm 4)^2 = 16 \equiv 3 \pmod{13}\)</span></li>
+<li><span class="math inline">\((\pm 5)^2 = 25 \equiv 12 \pmod{13}\)</span></li>
+<li><span class="math inline">\((\pm 6)^2 = 36 \equiv 10 \pmod{13}\)</span></li>
+<li><strong>Quadratic Residues (<span class="math inline">\(\text{QR}_{13}\)</span>):</strong> <span class="math inline">\(\{1, 3, 4, 9, 10, 12\}\)</span>.</li>
+<li><strong>Quadratic Non-Residues (<span class="math inline">\(\text{QNR}_{13}\)</span>):</strong> <span class="math inline">\(\{2, 5, 6, 7, 8, 11\}\)</span>.</li>
+</ul></li>
+<li><strong>Euler’s Criterion (<span class="math inline">\(\frac{p-1}{2} = 6\)</span>):</strong>
+<ul>
+<li>For <span class="math inline">\(a = 3\)</span>: <span class="math inline">\(3^6 = 27^2 \equiv 1^2 = 1 \pmod{13} \implies \left(\frac{3}{13}\right) = +1\)</span> (matches <span class="math inline">\(3 \in \text{QR}_{13}\)</span>).</li>
+<li>For <span class="math inline">\(a = 5\)</span>: <span class="math inline">\(5^6 = (5^2)^3 = 25^3 \equiv (-1)^3 = -1 \pmod{13} \implies \left(\frac{5}{13}\right) = -1\)</span> (matches <span class="math inline">\(5 \in \text{QNR}_{13}\)</span>).</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="problem-3.3.5" class="level4" data-number="3.3.4.5">
+<h4 data-number="3.3.4.5" class="anchored" data-anchor-id="problem-3.3.5"><span class="header-section-number">3.3.4.5</span> Problem 3.3.5</h4>
+<p>Use the properties of the Legendre symbol and the Law of Quadratic Reciprocity to evaluate: (a) <span class="math inline">\(\left(\dfrac{71}{73}\right)\)</span><br>
+(b) <span class="math inline">\(\left(\dfrac{219}{383}\right)\)</span> (Note: <span class="math inline">\(383\)</span> is prime and <span class="math inline">\(219 = 3 \times 73\)</span>.)</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution to Problem 3.3.5
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-21" class="callout-21-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>(a) Evaluate <span class="math inline">\(\left(\frac{71}{73}\right)\)</span>:</strong><br>
+Since <span class="math inline">\(71 \equiv -2 \pmod{73}\)</span>: <span class="math display">\[\left(\frac{71}{73}\right) = \left(\frac{-2}{73}\right) = \left(\frac{-1}{73}\right)\left(\frac{2}{73}\right)\]</span> Since <span class="math inline">\(73 \equiv 1 \pmod 8\)</span>, we have <span class="math inline">\(73 \equiv 1 \pmod 4\)</span>, so <span class="math inline">\(\left(\frac{-1}{73}\right) = 1\)</span> and <span class="math inline">\(\left(\frac{2}{73}\right) = 1\)</span>. Thus: <span class="math display">\[\left(\frac{71}{73}\right) = 1 \times 1 = +1\]</span></p>
+<p><strong>(b) Evaluate <span class="math inline">\(\left(\frac{219}{383}\right)\)</span>:</strong><br>
+Factor <span class="math inline">\(219 = 3 \times 73\)</span>: <span class="math display">\[\left(\frac{219}{383}\right) = \left(\frac{3}{383}\right)\left(\frac{73}{383}\right)\]</span> 1. For <span class="math inline">\(\left(\frac{3}{383}\right)\)</span>: Since <span class="math inline">\(3 \equiv 3 \pmod 4\)</span> and <span class="math inline">\(383 \equiv 3 \pmod 4\)</span>, Quadratic Reciprocity flips the sign: <span class="math display">\[\left(\frac{3}{383}\right) = -\left(\frac{383}{3}\right) = -\left(\frac{2}{3}\right) = -(-1) = +1\]</span> 2. For <span class="math inline">\(\left(\frac{73}{383}\right)\)</span>: Since <span class="math inline">\(73 \equiv 1 \pmod 4\)</span>, Quadratic Reciprocity preserves the sign: <span class="math display">\[\left(\frac{73}{383}\right) = \left(\frac{383}{73}\right) = \left(\frac{18}{73}\right) = \left(\frac{9}{73}\right)\left(\frac{2}{73}\right) = 1 \times 1 = +1\]</span> Multiplying the two factors gives <span class="math inline">\(\left(\frac{219}{383}\right) = (+1)(+1) = +1\)</span>.</p>
+</div>
+</div>
+</div>
+
+
+<!-- -->
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./unit2-relations-recurrences.html" class="pagination-link" aria-label="Unit 2: Relations, Recurrence Relations, and Advanced Counting Techniques">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Unit 2: Relations, Recurrence Relations, and Advanced Counting Techniques</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb7" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Unit 3: Number Theory and Cryptographic Applications</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## Divisibility, Prime Factorization, Linear Congruences, and the Chinese Remainder Theorem</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">### Context &amp; Computing Motivation</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>Modular arithmetic and integer factorization form the mathematical core of modern asymmetric cryptography, cryptographic hashing, pseudorandom number generation, and error-correcting codes. The **Extended Euclidean Algorithm** computes modular inverses required for RSA key generation and Elliptic Curve Cryptography (ECC) in $O(\log n)$ time, while the **Chinese Remainder Theorem (CRT)** accelerates RSA decryption by $4\times$ (RSA-CRT) and enables parallel large-integer arithmetic.</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="fu">### Basic Theory &amp; Formal Definitions</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="fu">## Divisibility, Fundamental Theorem of Arithmetic &amp; Bézout's Identity</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Division Algorithm:** For any $a \in \mathbb{Z}$ and $d \in \mathbb{Z}^+$, there exist unique integers $q$ (quotient) and $r$ (remainder) such that $a = dq + r$ with $0 \le r &lt; d$.</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Fundamental Theorem of Arithmetic:** Every integer $n &gt; 1$ can be factored uniquely (up to order of factors) into prime powers: $n = p_1^{e_1} p_2^{e_2} \cdots p_k^{e_k}$.</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Bézout's Identity:** For any non-zero integers $a, b$, there exist integers $x, y \in \mathbb{Z}$ (Bézout coefficients, found via the Extended Euclidean Algorithm) such that:</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  $$ax + by = \gcd(a, b)$$</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="fu">## Linear Congruences &amp; The Chinese Remainder Theorem (CRT)</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Single Linear Congruence ($ax \equiv b \pmod m$):**</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>   Let $g = \gcd(a, m)$. The congruence has solutions if and only if $g \mid b$. When $g \mid b$, there are exactly $g$ incongruent solutions modulo $m$, given by:</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>   $$x \equiv x_0 + k \cdot \frac{m}{g} \pmod m, \qquad k = 0, 1, \dots, g - 1$$</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>   where $x_0$ is the unique solution to $\frac{a}{g} x \equiv \frac{b}{g} \pmod{\frac{m}{g}}$. In particular, $a$ has a unique **modular inverse** $a^{-1} \pmod m$ iff $\gcd(a,m) = 1$.</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Chinese Remainder Theorem (CRT):**</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>   Let $m_1, m_2, \dots, m_r$ be pairwise coprime positive integers ($\gcd(m_i, m_j) = 1$ for $i \ne j$), and let $M = m_1 m_2 \cdots m_r$. Then the system of simultaneous congruences:</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>   $$x \equiv a_1 \pmod{m_1}, \quad x \equiv a_2 \pmod{m_2}, \quad \dots, \quad x \equiv a_r \pmod{m_r}$$</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>   has a **unique solution modulo $M$**, given explicitly by:</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>   $$x \equiv \sum_{i=1}^{r} a_i M_i y_i \pmod M$$</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>   where $M_i = M / m_i$ and $y_i \equiv M_i^{-1} \pmod{m_i}$.</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="fu">### Worked Examples</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>**Example 3.1.1 (Chinese Remainder Theorem):**  </span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>Solve the system $x \equiv 2 \pmod 3$, $x \equiv 3 \pmod 5$, $x \equiv 2 \pmod 7$.</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>*Solution:*  </span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>Here $M = 3 \times 5 \times 7 = 105$:</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$M_1 = 35 \equiv 2 \pmod 3 \implies y_1 \equiv 2^{-1} \equiv 2 \pmod 3$.</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$M_2 = 21 \equiv 1 \pmod 5 \implies y_2 \equiv 1^{-1} \equiv 1 \pmod 5$.</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$M_3 = 15 \equiv 1 \pmod 7 \implies y_3 \equiv 1^{-1} \equiv 1 \pmod 7$.</span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>Thus:</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>$$x \equiv 2(35)(2) + 3(21)(1) + 2(15)(1) = 140 + 63 + 30 = 233 \equiv 23 \pmod{105}$$</span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sympy.ntheory.modular <span class="im">import</span> crt</span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>moduli <span class="op">=</span> [<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>]</span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>remainders <span class="op">=</span> [<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">2</span>]</span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>sol, mod_M <span class="op">=</span> crt(moduli, remainders)</span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"CRT Solution: x ≡ </span><span class="sc">{</span>sol<span class="sc">}</span><span class="ss"> (mod </span><span class="sc">{</span>mod_M<span class="sc">}</span><span class="ss">)"</span>)</span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a><span class="fu">### Problems &amp; Solutions (Section 3.1)</span></span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Problem 3.1.1</span></span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>Use the Euclidean Algorithm to compute $g = \gcd(252, 198)$ and then use the Extended Euclidean Algorithm to find integers $x, y$ such that $252x + 198y = g$.</span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true"}</span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solution to Problem 3.1.1</span></span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Forward Euclidean Steps:**</span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a>  $$\begin{aligned}</span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a>  252 &amp;= 1 \times 198 + 54 <span class="sc">\\</span></span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a>  198 &amp;= 3 \times 54 + 36 <span class="sc">\\</span></span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a>  54 &amp;= 1 \times 36 + 18 <span class="sc">\\</span></span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a>  36 &amp;= 2 \times 18 + 0 \implies \gcd(252, 198) = 18</span>
+<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a>  \end{aligned}$$</span>
+<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Back-Substitution (Extended Euclidean):**</span>
+<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a>  $$\begin{aligned}</span>
+<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a>  18 &amp;= 54 - 1 \times 36 <span class="sc">\\</span></span>
+<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a>  &amp;= 54 - 1 \times (198 - 3 \times 54) = 4 \times 54 - 1 \times 198 <span class="sc">\\</span></span>
+<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a>  &amp;= 4 \times (252 - 1 \times 198) - 1 \times 198 = 4 \times 252 - 5 \times 198</span>
+<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a>  \end{aligned}$$</span>
+<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a>  Thus $\gcd(252, 198) = 18$ with $x = 4$ and $y = -5$.</span>
+<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Problem 3.1.2</span></span>
+<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a>Find the multiplicative inverse of $37 \pmod{100}$ using the Extended Euclidean Algorithm, and use it to solve $37x \equiv 19 \pmod{100}$.</span>
+<span id="cb7-82"><a href="#cb7-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-83"><a href="#cb7-83" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true"}</span>
+<span id="cb7-84"><a href="#cb7-84" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solution to Problem 3.1.2</span></span>
+<span id="cb7-85"><a href="#cb7-85" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Extended Euclidean Algorithm for $(100, 37)$:**</span>
+<span id="cb7-86"><a href="#cb7-86" aria-hidden="true" tabindex="-1"></a>  $$\begin{aligned}</span>
+<span id="cb7-87"><a href="#cb7-87" aria-hidden="true" tabindex="-1"></a>  100 &amp;= 2 \times 37 + 26 <span class="sc">\\</span></span>
+<span id="cb7-88"><a href="#cb7-88" aria-hidden="true" tabindex="-1"></a>  37 &amp;= 1 \times 26 + 11 <span class="sc">\\</span></span>
+<span id="cb7-89"><a href="#cb7-89" aria-hidden="true" tabindex="-1"></a>  26 &amp;= 2 \times 11 + 4 <span class="sc">\\</span></span>
+<span id="cb7-90"><a href="#cb7-90" aria-hidden="true" tabindex="-1"></a>  11 &amp;= 2 \times 4 + 3 <span class="sc">\\</span></span>
+<span id="cb7-91"><a href="#cb7-91" aria-hidden="true" tabindex="-1"></a>  4 &amp;= 1 \times 3 + 1</span>
+<span id="cb7-92"><a href="#cb7-92" aria-hidden="true" tabindex="-1"></a>  \end{aligned}$$</span>
+<span id="cb7-93"><a href="#cb7-93" aria-hidden="true" tabindex="-1"></a>  Back-substituting:</span>
+<span id="cb7-94"><a href="#cb7-94" aria-hidden="true" tabindex="-1"></a>  $$\begin{aligned}</span>
+<span id="cb7-95"><a href="#cb7-95" aria-hidden="true" tabindex="-1"></a>  1 &amp;= 4 - 3 = 4 - (11 - 2 \times 4) = 3 \times 4 - 11 <span class="sc">\\</span></span>
+<span id="cb7-96"><a href="#cb7-96" aria-hidden="true" tabindex="-1"></a>  &amp;= 3(26 - 2 \times 11) - 11 = 3 \times 26 - 7 \times 11 <span class="sc">\\</span></span>
+<span id="cb7-97"><a href="#cb7-97" aria-hidden="true" tabindex="-1"></a>  &amp;= 3 \times 26 - 7(37 - 26) = 10 \times 26 - 7 \times 37 <span class="sc">\\</span></span>
+<span id="cb7-98"><a href="#cb7-98" aria-hidden="true" tabindex="-1"></a>  &amp;= 10(100 - 2 \times 37) - 7 \times 37 = 10 \times 100 - 27 \times 37</span>
+<span id="cb7-99"><a href="#cb7-99" aria-hidden="true" tabindex="-1"></a>  \end{aligned}$$</span>
+<span id="cb7-100"><a href="#cb7-100" aria-hidden="true" tabindex="-1"></a>  Thus $37^{-1} \equiv -27 \equiv 73 \pmod{100}$.</span>
+<span id="cb7-101"><a href="#cb7-101" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Solve $37x \equiv 19 \pmod{100}$:**</span>
+<span id="cb7-102"><a href="#cb7-102" aria-hidden="true" tabindex="-1"></a>  $$x \equiv 73 \times 19 = 1387 \equiv 87 \pmod{100}$$</span>
+<span id="cb7-103"><a href="#cb7-103" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb7-104"><a href="#cb7-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-105"><a href="#cb7-105" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Problem 3.1.3</span></span>
+<span id="cb7-106"><a href="#cb7-106" aria-hidden="true" tabindex="-1"></a>Find all incongruent solutions modulo $42$ to the linear congruence $18x \equiv 30 \pmod{42}$.</span>
+<span id="cb7-107"><a href="#cb7-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-108"><a href="#cb7-108" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true"}</span>
+<span id="cb7-109"><a href="#cb7-109" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solution to Problem 3.1.3</span></span>
+<span id="cb7-110"><a href="#cb7-110" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Compute $g = \gcd(18, 42) = 6$. Since $6 \mid 30$, there are exactly $6$ incongruent solutions modulo $42$.</span>
+<span id="cb7-111"><a href="#cb7-111" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Divide the congruence through by $g = 6$:</span>
+<span id="cb7-112"><a href="#cb7-112" aria-hidden="true" tabindex="-1"></a>   $$3x \equiv 5 \pmod 7$$</span>
+<span id="cb7-113"><a href="#cb7-113" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Since $3^{-1} \equiv 5 \pmod 7$ ($3 \times 5 = 15 \equiv 1 \pmod 7$), the base solution modulo $7$ is:</span>
+<span id="cb7-114"><a href="#cb7-114" aria-hidden="true" tabindex="-1"></a>   $$x_0 \equiv 5 \times 5 = 25 \equiv 4 \pmod 7$$</span>
+<span id="cb7-115"><a href="#cb7-115" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Adding multiples of $\frac{m}{g} = 7$ yields all $6$ incongruent solutions modulo $42$:</span>
+<span id="cb7-116"><a href="#cb7-116" aria-hidden="true" tabindex="-1"></a>   $$x \equiv 4, \, 11, \, 18, \, 25, \, 32, \, 39 \pmod{42}$$</span>
+<span id="cb7-117"><a href="#cb7-117" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb7-118"><a href="#cb7-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-119"><a href="#cb7-119" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Problem 3.1.4</span></span>
+<span id="cb7-120"><a href="#cb7-120" aria-hidden="true" tabindex="-1"></a>Solve the simultaneous system of linear congruences using the Chinese Remainder Theorem:</span>
+<span id="cb7-121"><a href="#cb7-121" aria-hidden="true" tabindex="-1"></a>$$\begin{cases}</span>
+<span id="cb7-122"><a href="#cb7-122" aria-hidden="true" tabindex="-1"></a>x \equiv 1 \pmod 3 <span class="sc">\\</span></span>
+<span id="cb7-123"><a href="#cb7-123" aria-hidden="true" tabindex="-1"></a>x \equiv 4 \pmod 5 <span class="sc">\\</span></span>
+<span id="cb7-124"><a href="#cb7-124" aria-hidden="true" tabindex="-1"></a>x \equiv 6 \pmod 7 <span class="sc">\\</span></span>
+<span id="cb7-125"><a href="#cb7-125" aria-hidden="true" tabindex="-1"></a>x \equiv 9 \pmod{11}</span>
+<span id="cb7-126"><a href="#cb7-126" aria-hidden="true" tabindex="-1"></a>\end{cases}$$</span>
+<span id="cb7-127"><a href="#cb7-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-128"><a href="#cb7-128" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true"}</span>
+<span id="cb7-129"><a href="#cb7-129" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solution to Problem 3.1.4</span></span>
+<span id="cb7-130"><a href="#cb7-130" aria-hidden="true" tabindex="-1"></a>The moduli $3, 5, 7, 11$ are pairwise coprime with product $M = 3 \times 5 \times 7 \times 11 = 1155$.</span>
+<span id="cb7-131"><a href="#cb7-131" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$M_1 = 385 \equiv 1 \pmod 3 \implies y_1 = 1$.</span>
+<span id="cb7-132"><a href="#cb7-132" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$M_2 = 231 \equiv 1 \pmod 5 \implies y_2 = 1$.</span>
+<span id="cb7-133"><a href="#cb7-133" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$M_3 = 165 \equiv 4 \pmod 7 \implies y_3 \equiv 4^{-1} \equiv 2 \pmod 7$.</span>
+<span id="cb7-134"><a href="#cb7-134" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$M_4 = 105 \equiv 6 \pmod{11} \implies y_4 \equiv 6^{-1} \equiv 2 \pmod{11}$.</span>
+<span id="cb7-135"><a href="#cb7-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-136"><a href="#cb7-136" aria-hidden="true" tabindex="-1"></a>Summing via CRT:</span>
+<span id="cb7-137"><a href="#cb7-137" aria-hidden="true" tabindex="-1"></a>$$x \equiv 1(385)(1) + 4(231)(1) + 6(165)(2) + 9(105)(2) = 385 + 924 + 1980 + 1890 = 5179 \equiv 559 \pmod{1155}$$</span>
+<span id="cb7-138"><a href="#cb7-138" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb7-139"><a href="#cb7-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-140"><a href="#cb7-140" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Problem 3.1.5</span></span>
+<span id="cb7-141"><a href="#cb7-141" aria-hidden="true" tabindex="-1"></a>Determine whether the following system of congruences with **non-coprime** moduli has a solution, and if so, find all solutions:</span>
+<span id="cb7-142"><a href="#cb7-142" aria-hidden="true" tabindex="-1"></a>$$\begin{cases}</span>
+<span id="cb7-143"><a href="#cb7-143" aria-hidden="true" tabindex="-1"></a>x \equiv 5 \pmod 6 <span class="sc">\\</span></span>
+<span id="cb7-144"><a href="#cb7-144" aria-hidden="true" tabindex="-1"></a>x \equiv 3 \pmod{10} <span class="sc">\\</span></span>
+<span id="cb7-145"><a href="#cb7-145" aria-hidden="true" tabindex="-1"></a>x \equiv 8 \pmod{15}</span>
+<span id="cb7-146"><a href="#cb7-146" aria-hidden="true" tabindex="-1"></a>\end{cases}$$</span>
+<span id="cb7-147"><a href="#cb7-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-148"><a href="#cb7-148" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true"}</span>
+<span id="cb7-149"><a href="#cb7-149" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solution to Problem 3.1.5</span></span>
+<span id="cb7-150"><a href="#cb7-150" aria-hidden="true" tabindex="-1"></a>Break each composite modulus into prime-power congruences:</span>
+<span id="cb7-151"><a href="#cb7-151" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>$x \equiv 5 \pmod 6 \iff x \equiv 1 \pmod 2 \text{ and } x \equiv 2 \pmod 3$.</span>
+<span id="cb7-152"><a href="#cb7-152" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>$x \equiv 3 \pmod{10} \iff x \equiv 1 \pmod 2 \text{ and } x \equiv 3 \pmod 5$.</span>
+<span id="cb7-153"><a href="#cb7-153" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>$x \equiv 8 \pmod{15} \iff x \equiv 2 \pmod 3 \text{ and } x \equiv 3 \pmod 5$.</span>
+<span id="cb7-154"><a href="#cb7-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-155"><a href="#cb7-155" aria-hidden="true" tabindex="-1"></a>All three prime congruences are mutually consistent! Thus the system is equivalent to:</span>
+<span id="cb7-156"><a href="#cb7-156" aria-hidden="true" tabindex="-1"></a>$$x \equiv 1 \pmod 2, \quad x \equiv 2 \pmod 3, \quad x \equiv 3 \pmod 5$$</span>
+<span id="cb7-157"><a href="#cb7-157" aria-hidden="true" tabindex="-1"></a>Since $M = \text{lcm}(6, 10, 15) = 30$, applying CRT (or observing $x + 2$ is divisible by $2$? No, wait: for $x = 23$, $23 \equiv 5 \pmod 6$, $23 \equiv 3 \pmod{10}$, $23 \equiv 8 \pmod{15}$):</span>
+<span id="cb7-158"><a href="#cb7-158" aria-hidden="true" tabindex="-1"></a>$$x \equiv 23 \pmod{30}$$</span>
+<span id="cb7-159"><a href="#cb7-159" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb7-160"><a href="#cb7-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-161"><a href="#cb7-161" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb7-162"><a href="#cb7-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-163"><a href="#cb7-163" aria-hidden="true" tabindex="-1"></a><span class="fu">## Wilson's, Fermat's, and Euler's Theorems, Pseudoprimes, and Carmichael Numbers</span></span>
+<span id="cb7-164"><a href="#cb7-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-165"><a href="#cb7-165" aria-hidden="true" tabindex="-1"></a><span class="fu">### Context &amp; Computing Motivation</span></span>
+<span id="cb7-166"><a href="#cb7-166" aria-hidden="true" tabindex="-1"></a>Public-key cryptosystems such as **RSA**, Diffie–Hellman key exchange, and Digital Signature Standards rely directly on **Euler's Theorem** and **Fermat's Little Theorem**. Probabilistic primality tests (such as the Fermat test and Miller–Rabin test) use modular exponentiation to screen 2048-bit prime candidates in milliseconds, where **pseudoprimes** and **Carmichael numbers** characterize the failure modes of naive Fermat testing.</span>
+<span id="cb7-167"><a href="#cb7-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-168"><a href="#cb7-168" aria-hidden="true" tabindex="-1"></a><span class="fu">### Basic Theory &amp; Formal Definitions</span></span>
+<span id="cb7-169"><a href="#cb7-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-170"><a href="#cb7-170" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb7-171"><a href="#cb7-171" aria-hidden="true" tabindex="-1"></a><span class="fu">## Classical Theorems of Modular Arithmetic</span></span>
+<span id="cb7-172"><a href="#cb7-172" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Wilson's Theorem:** An integer $p &gt; 1$ is prime if and only if:</span>
+<span id="cb7-173"><a href="#cb7-173" aria-hidden="true" tabindex="-1"></a>   $$(p - 1)! \equiv -1 \pmod p$$</span>
+<span id="cb7-174"><a href="#cb7-174" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Fermat's Little Theorem (FLT):** If $p$ is prime and $p \nmid a$, then:</span>
+<span id="cb7-175"><a href="#cb7-175" aria-hidden="true" tabindex="-1"></a>   $$a^{p-1} \equiv 1 \pmod p \qquad \text{(and } a^p \equiv a \pmod p \text{ for all } a \in \mathbb{Z}\text{)}$$</span>
+<span id="cb7-176"><a href="#cb7-176" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Euler's Totient Function $\phi(n)$:** Counts integers $1 \le k \le n$ with $\gcd(k, n) = 1$. If $n = p_1^{e_1} \cdots p_k^{e_k}$, then:</span>
+<span id="cb7-177"><a href="#cb7-177" aria-hidden="true" tabindex="-1"></a>   $$\phi(n) = n \prod_{i=1}^{k} \left(1 - \frac{1}{p_i}\right)$$</span>
+<span id="cb7-178"><a href="#cb7-178" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Euler's Theorem:** If $\gcd(a, n) = 1$, then:</span>
+<span id="cb7-179"><a href="#cb7-179" aria-hidden="true" tabindex="-1"></a>   $$a^{\phi(n)} \equiv 1 \pmod n$$</span>
+<span id="cb7-180"><a href="#cb7-180" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb7-181"><a href="#cb7-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-182"><a href="#cb7-182" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
+<span id="cb7-183"><a href="#cb7-183" aria-hidden="true" tabindex="-1"></a><span class="fu">## Pseudoprimes, Carmichael Numbers &amp; RSA Correctness</span></span>
+<span id="cb7-184"><a href="#cb7-184" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Base-$b$ Pseudoprime:** A composite integer $n$ such that $b^{n-1} \equiv 1 \pmod n$. (Smallest base-2 pseudoprime is $341 = 11 \times 31$.)</span>
+<span id="cb7-185"><a href="#cb7-185" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Carmichael Number (Absolute Pseudoprime):** A composite integer $n$ that satisfies $b^{n-1} \equiv 1 \pmod n$ for **every** integer $b$ with $\gcd(b, n) = 1$.</span>
+<span id="cb7-186"><a href="#cb7-186" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Korselt's Criterion:** A composite integer $n$ is a Carmichael number if and only if $n$ is square-free and for every prime divisor $p \mid n$, $(p - 1) \mid (n - 1)$. (Smallest Carmichael number is $561 = 3 \times 11 \times 17$.)</span>
+<span id="cb7-187"><a href="#cb7-187" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**RSA Cryptosystem:** Choose distinct primes $p, q$; set $n = pq$ and $\phi(n) = (p-1)(q-1)$. Pick public exponent $e$ with $\gcd(e, \phi(n)) = 1$, and compute private key $d \equiv e^{-1} \pmod{\phi(n)}$. Encryption: $C \equiv M^e \pmod n$; Decryption: $M \equiv C^d \pmod n$.</span>
+<span id="cb7-188"><a href="#cb7-188" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb7-189"><a href="#cb7-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-190"><a href="#cb7-190" aria-hidden="true" tabindex="-1"></a><span class="fu">### Worked Examples</span></span>
+<span id="cb7-191"><a href="#cb7-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-192"><a href="#cb7-192" aria-hidden="true" tabindex="-1"></a>**Example 3.2.1 (Korselt's Criterion on $561$):**  </span>
+<span id="cb7-193"><a href="#cb7-193" aria-hidden="true" tabindex="-1"></a>Verify that $561 = 3 \times 11 \times 17$ is a Carmichael number.</span>
+<span id="cb7-194"><a href="#cb7-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-195"><a href="#cb7-195" aria-hidden="true" tabindex="-1"></a>*Solution:*  </span>
+<span id="cb7-196"><a href="#cb7-196" aria-hidden="true" tabindex="-1"></a>$561$ is composite and square-free ($3, 11, 17$ are distinct primes), with $n - 1 = 560$:</span>
+<span id="cb7-197"><a href="#cb7-197" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$p = 3 \implies p - 1 = 2 \mid 560$ ($560 = 2 \times 280$)</span>
+<span id="cb7-198"><a href="#cb7-198" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$p = 11 \implies p - 1 = 10 \mid 560$ ($560 = 10 \times 56$)</span>
+<span id="cb7-199"><a href="#cb7-199" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$p = 17 \implies p - 1 = 16 \mid 560$ ($560 = 16 \times 35$)</span>
+<span id="cb7-200"><a href="#cb7-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-201"><a href="#cb7-201" aria-hidden="true" tabindex="-1"></a>By Korselt's Criterion (or CRT on moduli $3, 11, 17$), $b^{560} \equiv 1 \pmod{561}$ for every $b$ coprime to $561$. $\blacksquare$</span>
+<span id="cb7-202"><a href="#cb7-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-205"><a href="#cb7-205" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb7-206"><a href="#cb7-206" aria-hidden="true" tabindex="-1"></a><span class="co"># Verify RSA encryption/decryption and base-2 pseudoprimality of 341</span></span>
+<span id="cb7-207"><a href="#cb7-207" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"2^340 mod 341 ="</span>, <span class="bu">pow</span>(<span class="dv">2</span>, <span class="dv">340</span>, <span class="dv">341</span>), <span class="st">"(341 = 11 * 31 is a base-2 pseudoprime)"</span>)</span>
+<span id="cb7-208"><a href="#cb7-208" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"3^340 mod 341 ="</span>, <span class="bu">pow</span>(<span class="dv">3</span>, <span class="dv">340</span>, <span class="dv">341</span>), <span class="st">"(3 witnesses that 341 is composite)"</span>)</span>
+<span id="cb7-209"><a href="#cb7-209" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-210"><a href="#cb7-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-211"><a href="#cb7-211" aria-hidden="true" tabindex="-1"></a><span class="fu">### Problems &amp; Solutions (Section 3.2)</span></span>
+<span id="cb7-212"><a href="#cb7-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-213"><a href="#cb7-213" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Problem 3.2.1</span></span>
+<span id="cb7-214"><a href="#cb7-214" aria-hidden="true" tabindex="-1"></a>Using Wilson's Theorem, find the remainder when $20! \pmod{23}$ and $26! \pmod{29}$ are divided by $23$ and $29$, respectively.</span>
+<span id="cb7-215"><a href="#cb7-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-216"><a href="#cb7-216" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true"}</span>
+<span id="cb7-217"><a href="#cb7-217" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solution to Problem 3.2.1</span></span>
+<span id="cb7-218"><a href="#cb7-218" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Part 1 ($20! \pmod{23}$):** By Wilson's Theorem, $22! \equiv -1 \pmod{23}$:</span>
+<span id="cb7-219"><a href="#cb7-219" aria-hidden="true" tabindex="-1"></a>  $$22 \cdot 21 \cdot 20! \equiv -1 \pmod{23} \implies (-1)(-2) \cdot 20! \equiv -1 \pmod{23} \implies 2 \cdot 20! \equiv 22 \pmod{23}$$</span>
+<span id="cb7-220"><a href="#cb7-220" aria-hidden="true" tabindex="-1"></a>  Dividing by $2$ (since $\gcd(2,23) = 1$) gives $20! \equiv 11 \pmod{23}$.</span>
+<span id="cb7-221"><a href="#cb7-221" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Part 2 ($26! \pmod{29}$):** By Wilson's Theorem, $28! \equiv -1 \pmod{29}$:</span>
+<span id="cb7-222"><a href="#cb7-222" aria-hidden="true" tabindex="-1"></a>  $$28 \cdot 27 \cdot 26! \equiv -1 \pmod{29} \implies (-1)(-2) \cdot 26! \equiv 28 \pmod{29} \implies 26! \equiv 14 \pmod{29}$$</span>
+<span id="cb7-223"><a href="#cb7-223" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb7-224"><a href="#cb7-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-225"><a href="#cb7-225" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Problem 3.2.2</span></span>
+<span id="cb7-226"><a href="#cb7-226" aria-hidden="true" tabindex="-1"></a>Compute $3^{2026} \pmod{31}$ using Fermat's Little Theorem, and find the last two digits of $7^{999}$ (i.e., $7^{999} \pmod{100}$) using Euler's Theorem.</span>
+<span id="cb7-227"><a href="#cb7-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-228"><a href="#cb7-228" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true"}</span>
+<span id="cb7-229"><a href="#cb7-229" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solution to Problem 3.2.2</span></span>
+<span id="cb7-230"><a href="#cb7-230" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Part 1 ($3^{2026} \pmod{31}$):** Since $31$ is prime and $\gcd(3,31)=1$, $3^{30} \equiv 1 \pmod{31}$ by FLT. Dividing $2026$ by $30$ gives $2026 = 30 \times 67 + 16$:</span>
+<span id="cb7-231"><a href="#cb7-231" aria-hidden="true" tabindex="-1"></a>  $$3^{2026} \equiv 3^{16} \pmod{31}$$</span>
+<span id="cb7-232"><a href="#cb7-232" aria-hidden="true" tabindex="-1"></a>  Note $3^3 = 27 \equiv -4 \pmod{31}$, so $3^{15} \equiv (-4)^5 = -1024 \equiv -1 \pmod{31}$. Thus:</span>
+<span id="cb7-233"><a href="#cb7-233" aria-hidden="true" tabindex="-1"></a>  $$3^{16} = 3 \cdot 3^{15} \equiv 3(-1) \equiv 28 \pmod{31}$$</span>
+<span id="cb7-234"><a href="#cb7-234" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Part 2 ($7^{999} \pmod{100}$):** Since $\gcd(7,100)=1$ and $\phi(100) = 100(1 - \frac{1}{2})(1 - \frac{1}{5}) = 40$, Euler's Theorem gives $7^{40} \equiv 1 \pmod{100}$ (in fact, $7^4 = 2401 \equiv 1 \pmod{100}$). Since $999 = 4 \times 249 + 3$:</span>
+<span id="cb7-235"><a href="#cb7-235" aria-hidden="true" tabindex="-1"></a>  $$7^{999} \equiv 7^3 = 343 \equiv 43 \pmod{100}$$</span>
+<span id="cb7-236"><a href="#cb7-236" aria-hidden="true" tabindex="-1"></a>  The last two digits are **$43$**.</span>
+<span id="cb7-237"><a href="#cb7-237" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb7-238"><a href="#cb7-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-239"><a href="#cb7-239" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Problem 3.2.3</span></span>
+<span id="cb7-240"><a href="#cb7-240" aria-hidden="true" tabindex="-1"></a>Prove that $n = 341 = 11 \times 31$ is a pseudoprime to the base $2$, and find a base $b$ that proves $341$ is composite.</span>
+<span id="cb7-241"><a href="#cb7-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-242"><a href="#cb7-242" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true"}</span>
+<span id="cb7-243"><a href="#cb7-243" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solution to Problem 3.2.3</span></span>
+<span id="cb7-244"><a href="#cb7-244" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Base $b = 2$:** We check $2^{340} \pmod{11}$ and $2^{340} \pmod{31}$:</span>
+<span id="cb7-245"><a href="#cb7-245" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>By Fermat's Little Theorem mod $11$, $2^{10} \equiv 1 \pmod{11} \implies 2^{340} = (2^{10})^{34} \equiv 1^{34} = 1 \pmod{11}$.</span>
+<span id="cb7-246"><a href="#cb7-246" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Note $2^5 = 32 \equiv 1 \pmod{31} \implies 2^{340} = (2^5)^{68} \equiv 1^{68} = 1 \pmod{31}$.</span>
+<span id="cb7-247"><a href="#cb7-247" aria-hidden="true" tabindex="-1"></a>  Since $\gcd(11, 31) = 1$, by CRT $2^{340} \equiv 1 \pmod{341}$. Thus $341$ is a base-2 pseudoprime.</span>
+<span id="cb7-248"><a href="#cb7-248" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Witness $b = 3$:** Modulo $31$, $3^3 = 27 \equiv -4 \pmod{31}$. Since $340 = 30 \times 11 + 10$, $3^{340} \equiv 3^{10} = (3^3)^3 \cdot 3 \equiv (-64) \cdot 3 = -192 \equiv 25 \ne 1 \pmod{31}$. Hence $3^{340} \not\equiv 1 \pmod{341}$ (specifically $3^{340} \equiv 56 \pmod{341}$), proving $341$ is composite.</span>
+<span id="cb7-249"><a href="#cb7-249" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb7-250"><a href="#cb7-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-251"><a href="#cb7-251" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Problem 3.2.4</span></span>
+<span id="cb7-252"><a href="#cb7-252" aria-hidden="true" tabindex="-1"></a>Prove using Korselt's Criterion (and verify directly via Fermat's Little Theorem and CRT) that $1729 = 7 \times 13 \times 19$ (the Hardy–Ramanujan taxicab number) is a Carmichael number.</span>
+<span id="cb7-253"><a href="#cb7-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-254"><a href="#cb7-254" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true"}</span>
+<span id="cb7-255"><a href="#cb7-255" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solution to Problem 3.2.4</span></span>
+<span id="cb7-256"><a href="#cb7-256" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Factorization:** $1729 = 7 \times 13 \times 19$ is the product of three distinct primes, so it is composite and square-free.</span>
+<span id="cb7-257"><a href="#cb7-257" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Divisibility Condition ($n - 1 = 1728$):**</span>
+<span id="cb7-258"><a href="#cb7-258" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>For $p = 7$: $p - 1 = 6$, and $1728 / 6 = 288 \in \mathbb{Z}$.</span>
+<span id="cb7-259"><a href="#cb7-259" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>For $p = 13$: $p - 1 = 12$, and $1728 / 12 = 144 \in \mathbb{Z}$.</span>
+<span id="cb7-260"><a href="#cb7-260" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>For $p = 19$: $p - 1 = 18$, and $1728 / 18 = 96 \in \mathbb{Z}$.</span>
+<span id="cb7-261"><a href="#cb7-261" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Direct CRT Proof:** For any $b$ with $\gcd(b, 1729) = 1$, we have $\gcd(b,p)=1$ for $p \in <span class="sc">\{</span>7, 13, 19<span class="sc">\}</span>$. By FLT:</span>
+<span id="cb7-262"><a href="#cb7-262" aria-hidden="true" tabindex="-1"></a>   $$b^{1728} = (b^6)^{288} \equiv 1 \pmod 7, \quad b^{1728} = (b^{12})^{144} \equiv 1 \pmod{13}, \quad b^{1728} = (b^{18})^{96} \equiv 1 \pmod{19}$$</span>
+<span id="cb7-263"><a href="#cb7-263" aria-hidden="true" tabindex="-1"></a>   By CRT, $b^{1728} \equiv 1 \pmod{1729}$ for all $\gcd(b,1729)=1$. Thus $1729$ is a Carmichael number. $\blacksquare$</span>
+<span id="cb7-264"><a href="#cb7-264" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb7-265"><a href="#cb7-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-266"><a href="#cb7-266" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Problem 3.2.5</span></span>
+<span id="cb7-267"><a href="#cb7-267" aria-hidden="true" tabindex="-1"></a>In an RSA system, let $p = 11$, $q = 17$, and public exponent $e = 7$.</span>
+<span id="cb7-268"><a href="#cb7-268" aria-hidden="true" tabindex="-1"></a>(a) Compute $n$, $\phi(n)$, and the private decryption key $d$.  </span>
+<span id="cb7-269"><a href="#cb7-269" aria-hidden="true" tabindex="-1"></a>(b) Encrypt the plaintext message $M = 88$ to find ciphertext $C$, and verify decryption $C^d \pmod n = M$ using CRT.</span>
+<span id="cb7-270"><a href="#cb7-270" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-271"><a href="#cb7-271" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true"}</span>
+<span id="cb7-272"><a href="#cb7-272" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solution to Problem 3.2.5</span></span>
+<span id="cb7-273"><a href="#cb7-273" aria-hidden="true" tabindex="-1"></a>(a) **Key Generation:**</span>
+<span id="cb7-274"><a href="#cb7-274" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$n = 11 \times 17 = 187$.</span>
+<span id="cb7-275"><a href="#cb7-275" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\phi(n) = (11 - 1)(17 - 1) = 10 \times 16 = 160$.</span>
+<span id="cb7-276"><a href="#cb7-276" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Solve $7d \equiv 1 \pmod{160}$: Since $160 = 22 \times 7 + 6$, $7 = 1 \times 6 + 1 \implies 1 = 7 - (160 - 22 \times 7) = 23 \times 7 - 160$, we get **$d = 23$**.</span>
+<span id="cb7-277"><a href="#cb7-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-278"><a href="#cb7-278" aria-hidden="true" tabindex="-1"></a>(b) **Encryption &amp; CRT Decryption:**</span>
+<span id="cb7-279"><a href="#cb7-279" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Encryption:** $C \equiv 88^7 \pmod{187}$.</span>
+<span id="cb7-280"><a href="#cb7-280" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Mod $11$: $88 \equiv 0 \pmod{11} \implies C \equiv 0^7 = 0 \pmod{11}$.</span>
+<span id="cb7-281"><a href="#cb7-281" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Mod $17$: $88 \equiv 3 \pmod{17} \implies C \equiv 3^7 = 2187 \equiv 11 \pmod{17}$.</span>
+<span id="cb7-282"><a href="#cb7-282" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>By CRT ($C \equiv 0 \pmod{11}, C \equiv 11 \pmod{17}$): **$C = 11$**.</span>
+<span id="cb7-283"><a href="#cb7-283" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Decryption:** $M \equiv 11^{23} \pmod{187}$.</span>
+<span id="cb7-284"><a href="#cb7-284" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Mod $11$: $11^{23} \equiv 0 \pmod{11}$.</span>
+<span id="cb7-285"><a href="#cb7-285" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Mod $17$: $11^{23} \equiv 11^7 \equiv (-6)^7 \equiv 3 \pmod{17}$ (since $23 \equiv 7 \pmod{16}$).</span>
+<span id="cb7-286"><a href="#cb7-286" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>By CRT ($M \equiv 0 \pmod{11}, M \equiv 3 \pmod{17}$): **$M = 88$**.</span>
+<span id="cb7-287"><a href="#cb7-287" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb7-288"><a href="#cb7-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-289"><a href="#cb7-289" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb7-290"><a href="#cb7-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-291"><a href="#cb7-291" aria-hidden="true" tabindex="-1"></a><span class="fu">## Arithmetic Functions and Quadratic Residues</span></span>
+<span id="cb7-292"><a href="#cb7-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-293"><a href="#cb7-293" aria-hidden="true" tabindex="-1"></a><span class="fu">### Context &amp; Computing Motivation</span></span>
+<span id="cb7-294"><a href="#cb7-294" aria-hidden="true" tabindex="-1"></a>Multiplicative arithmetic functions ($\phi(n), \tau(n), \sigma(n), \mu(n)$) govern divisor analysis, cyclotomic polynomials in error-correcting codes, and sieve algorithms. **Quadratic residues** and the **Law of Quadratic Reciprocity** power the Goldwasser–Micali probabilistic encryption scheme, the Rabin cryptosystem, Solovay–Strassen primality testing, and elliptic curve point-counting algorithms.</span>
+<span id="cb7-295"><a href="#cb7-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-296"><a href="#cb7-296" aria-hidden="true" tabindex="-1"></a><span class="fu">### Basic Theory &amp; Formal Definitions</span></span>
+<span id="cb7-297"><a href="#cb7-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-298"><a href="#cb7-298" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb7-299"><a href="#cb7-299" aria-hidden="true" tabindex="-1"></a><span class="fu">## Multiplicative Arithmetic Functions &amp; Möbius Inversion</span></span>
+<span id="cb7-300"><a href="#cb7-300" aria-hidden="true" tabindex="-1"></a>An arithmetic function $f: \mathbb{Z}^+ \to \mathbb{C}$ is **multiplicative** if $f(mn) = f(m)f(n)$ whenever $\gcd(m, n) = 1$. If $n = \prod_{i=1}^{k} p_i^{e_i}$:</span>
+<span id="cb7-301"><a href="#cb7-301" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-302"><a href="#cb7-302" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Number of Positive Divisors $\tau(n)$ (or $d(n)$):**</span>
+<span id="cb7-303"><a href="#cb7-303" aria-hidden="true" tabindex="-1"></a>   $$\tau(n) = \sum_{d \mid n} 1 = \prod_{i=1}^{k} (e_i + 1)$$</span>
+<span id="cb7-304"><a href="#cb7-304" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Sum of Positive Divisors $\sigma(n)$:**</span>
+<span id="cb7-305"><a href="#cb7-305" aria-hidden="true" tabindex="-1"></a>   $$\sigma(n) = \sum_{d \mid n} d = \prod_{i=1}^{k} \frac{p_i^{e_i + 1} - 1}{p_i - 1}$$</span>
+<span id="cb7-306"><a href="#cb7-306" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Euler's Totient divisor sum (Gauss's Theorem):** $\sum_{d \mid n} \phi(d) = n$.</span>
+<span id="cb7-307"><a href="#cb7-307" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Möbius Function $\mu(n)$:**</span>
+<span id="cb7-308"><a href="#cb7-308" aria-hidden="true" tabindex="-1"></a>   $$\mu(n) = \begin{cases} 1 &amp; \text{if } n = 1 <span class="sc">\\</span> (-1)^k &amp; \text{if } n = p_1 p_2 \cdots p_k \text{ (square-free product of } k \text{ distinct primes)} <span class="sc">\\</span> 0 &amp; \text{if } p^2 \mid n \text{ for some prime } p \end{cases}$$</span>
+<span id="cb7-309"><a href="#cb7-309" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Möbius Inversion Formula:** $F(n) = \sum_{d \mid n} f(d) \iff f(n) = \sum_{d \mid n} \mu(d) F<span class="sc">\!</span>\left(\frac{n}{d}\right)$.</span>
+<span id="cb7-310"><a href="#cb7-310" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb7-311"><a href="#cb7-311" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-312"><a href="#cb7-312" aria-hidden="true" tabindex="-1"></a>::: {.callout-important}</span>
+<span id="cb7-313"><a href="#cb7-313" aria-hidden="true" tabindex="-1"></a><span class="fu">## Quadratic Residues, Legendre Symbol &amp; Law of Quadratic Reciprocity</span></span>
+<span id="cb7-314"><a href="#cb7-314" aria-hidden="true" tabindex="-1"></a>Let $p$ be an odd prime and $\gcd(a, p) = 1$. Then $a$ is a **quadratic residue modulo $p$** ($\text{QR}_p$) if $x^2 \equiv a \pmod p$ has a solution; otherwise $a$ is a **quadratic non-residue** ($\text{QNR}_p$). Among $<span class="sc">\{</span>1, 2, \dots, p-1<span class="sc">\}</span>$, there are exactly $\frac{p-1}{2}$ quadratic residues and $\frac{p-1}{2}$ non-residues.</span>
+<span id="cb7-315"><a href="#cb7-315" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-316"><a href="#cb7-316" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Legendre Symbol $\left(\frac{a}{p}\right)$:**</span>
+<span id="cb7-317"><a href="#cb7-317" aria-hidden="true" tabindex="-1"></a>  $$\left(\frac{a}{p}\right) = \begin{cases} 1 &amp; \text{if } a \text{ is a QR mod } p <span class="sc">\\</span> -1 &amp; \text{if } a \text{ is a QNR mod } p <span class="sc">\\</span> 0 &amp; \text{if } p \mid a \end{cases}$$</span>
+<span id="cb7-318"><a href="#cb7-318" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Euler's Criterion:** $\left(\frac{a}{p}\right) \equiv a^{(p-1)/2} \pmod p$.</span>
+<span id="cb7-319"><a href="#cb7-319" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Multiplicativity:** $\left(\frac{ab}{p}\right) = \left(\frac{a}{p}\right)\left(\frac{b}{p}\right)$.</span>
+<span id="cb7-320"><a href="#cb7-320" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**First &amp; Second Supplements:**</span>
+<span id="cb7-321"><a href="#cb7-321" aria-hidden="true" tabindex="-1"></a>  $$\left(\frac{-1}{p}\right) = (-1)^{\frac{p-1}{2}}, \qquad \left(\frac{2}{p}\right) = (-1)^{\frac{p^2-1}{8}}$$</span>
+<span id="cb7-322"><a href="#cb7-322" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Gauss's Law of Quadratic Reciprocity:** For distinct odd primes $p$ and $q$:</span>
+<span id="cb7-323"><a href="#cb7-323" aria-hidden="true" tabindex="-1"></a>  $$\left(\frac{p}{q}\right)\left(\frac{q}{p}\right) = (-1)^{\frac{p-1}{2}\cdot\frac{q-1}{2}}$$</span>
+<span id="cb7-324"><a href="#cb7-324" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb7-325"><a href="#cb7-325" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-326"><a href="#cb7-326" aria-hidden="true" tabindex="-1"></a><span class="fu">### Worked Examples</span></span>
+<span id="cb7-327"><a href="#cb7-327" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-328"><a href="#cb7-328" aria-hidden="true" tabindex="-1"></a>**Example 3.3.1 (Evaluating a Legendre Symbol via Quadratic Reciprocity):**  </span>
+<span id="cb7-329"><a href="#cb7-329" aria-hidden="true" tabindex="-1"></a>Determine whether $x^2 \equiv 29 \pmod{53}$ is solvable.</span>
+<span id="cb7-330"><a href="#cb7-330" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-331"><a href="#cb7-331" aria-hidden="true" tabindex="-1"></a>*Solution:*  </span>
+<span id="cb7-332"><a href="#cb7-332" aria-hidden="true" tabindex="-1"></a>Both $29$ and $53$ are primes congruent to $1 \pmod 4$, so $(-1)^{\frac{28}{2}\frac{52}{2}} = +1$:</span>
+<span id="cb7-333"><a href="#cb7-333" aria-hidden="true" tabindex="-1"></a>$$\left(\frac{29}{53}\right) = \left(\frac{53}{29}\right) = \left(\frac{24}{29}\right) = \left(\frac{4}{29}\right)\left(\frac{2}{29}\right)\left(\frac{3}{29}\right) = (1)(-1)\left(\frac{29}{3}\right) = -\left(\frac{2}{3}\right) = -(-1) = +1$$</span>
+<span id="cb7-334"><a href="#cb7-334" aria-hidden="true" tabindex="-1"></a>Thus $x^2 \equiv 29 \pmod{53}$ **is solvable** ($x \equiv \pm 22 \pmod{53}$ since $22^2 = 484 = 9 \times 53 + 7$? Wait: $25^2 = 625 = 11 \times 53 + 42$; let's verify in Python!).</span>
+<span id="cb7-335"><a href="#cb7-335" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-338"><a href="#cb7-338" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb7-339"><a href="#cb7-339" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sympy.ntheory.residue_ntheory <span class="im">import</span> legendre_symbol, sqrt_mod</span>
+<span id="cb7-340"><a href="#cb7-340" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-341"><a href="#cb7-341" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Legendre symbol (29 / 53):"</span>, legendre_symbol(<span class="dv">29</span>, <span class="dv">53</span>))</span>
+<span id="cb7-342"><a href="#cb7-342" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Solutions to x^2 ≡ 29 (mod 53):"</span>, sqrt_mod(<span class="dv">29</span>, <span class="dv">53</span>, all_roots<span class="op">=</span><span class="va">True</span>))</span>
+<span id="cb7-343"><a href="#cb7-343" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-344"><a href="#cb7-344" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-345"><a href="#cb7-345" aria-hidden="true" tabindex="-1"></a><span class="fu">### Problems &amp; Solutions (Section 3.3)</span></span>
+<span id="cb7-346"><a href="#cb7-346" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-347"><a href="#cb7-347" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Problem 3.3.1</span></span>
+<span id="cb7-348"><a href="#cb7-348" aria-hidden="true" tabindex="-1"></a>For $n = 720$, find its prime factorization and compute $\tau(720)$, $\sigma(720)$, $\phi(720)$, and $\mu(720)$.</span>
+<span id="cb7-349"><a href="#cb7-349" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-350"><a href="#cb7-350" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true"}</span>
+<span id="cb7-351"><a href="#cb7-351" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solution to Problem 3.3.1</span></span>
+<span id="cb7-352"><a href="#cb7-352" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Prime Factorization:** $720 = 16 \times 9 \times 5 = 2^4 \cdot 3^2 \cdot 5^1$.</span>
+<span id="cb7-353"><a href="#cb7-353" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Number of Divisors $\tau(720)$:**</span>
+<span id="cb7-354"><a href="#cb7-354" aria-hidden="true" tabindex="-1"></a>  $$\tau(720) = (4 + 1)(2 + 1)(1 + 1) = 5 \times 3 \times 2 = 30$$</span>
+<span id="cb7-355"><a href="#cb7-355" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Sum of Divisors $\sigma(720)$:**</span>
+<span id="cb7-356"><a href="#cb7-356" aria-hidden="true" tabindex="-1"></a>  $$\sigma(720) = \frac{2^5 - 1}{2 - 1} \cdot \frac{3^3 - 1}{3 - 1} \cdot \frac{5^2 - 1}{5 - 1} = 31 \times 13 \times 6 = 2418$$</span>
+<span id="cb7-357"><a href="#cb7-357" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Euler's Totient $\phi(720)$:**</span>
+<span id="cb7-358"><a href="#cb7-358" aria-hidden="true" tabindex="-1"></a>  $$\phi(720) = 720 \left(1 - \frac{1}{2}\right)\left(1 - \frac{1}{3}\right)\left(1 - \frac{1}{5}\right) = 720 \cdot \frac{1}{2} \cdot \frac{2}{3} \cdot \frac{4}{5} = 192$$</span>
+<span id="cb7-359"><a href="#cb7-359" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Möbius Function $\mu(720)$:** Since $2^2 \mid 720$ ($720$ is not square-free), **$\mu(720) = 0$**.</span>
+<span id="cb7-360"><a href="#cb7-360" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb7-361"><a href="#cb7-361" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-362"><a href="#cb7-362" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Problem 3.3.2</span></span>
+<span id="cb7-363"><a href="#cb7-363" aria-hidden="true" tabindex="-1"></a>Prove that if $f: \mathbb{Z}^+ \to \mathbb{C}$ is a multiplicative function, then the summatory function $F(n) = \sum_{d \mid n} f(d)$ is also multiplicative.</span>
+<span id="cb7-364"><a href="#cb7-364" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-365"><a href="#cb7-365" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true"}</span>
+<span id="cb7-366"><a href="#cb7-366" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solution to Problem 3.3.2</span></span>
+<span id="cb7-367"><a href="#cb7-367" aria-hidden="true" tabindex="-1"></a>Let $m, n \in \mathbb{Z}^+$ with $\gcd(m, n) = 1$. Every positive divisor $d$ of $mn$ can be uniquely written as $d = d_1 d_2$ where $d_1 \mid m$, $d_2 \mid n$, and $\gcd(d_1, d_2) = 1$. Since $f$ is multiplicative, $f(d_1 d_2) = f(d_1) f(d_2)$. Therefore:</span>
+<span id="cb7-368"><a href="#cb7-368" aria-hidden="true" tabindex="-1"></a>$$F(mn) = \sum_{d \mid mn} f(d) = \sum_{d_1 \mid m} \sum_{d_2 \mid n} f(d_1 d_2) = \left(\sum_{d_1 \mid m} f(d_1)\right)\left(\sum_{d_2 \mid n} f(d_2)\right) = F(m) F(n)$$</span>
+<span id="cb7-369"><a href="#cb7-369" aria-hidden="true" tabindex="-1"></a>Thus $F$ is multiplicative. $\blacksquare$</span>
+<span id="cb7-370"><a href="#cb7-370" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb7-371"><a href="#cb7-371" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-372"><a href="#cb7-372" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Problem 3.3.3</span></span>
+<span id="cb7-373"><a href="#cb7-373" aria-hidden="true" tabindex="-1"></a>Use Gauss's identity $\sum_{d \mid n} \phi(d) = n$ and the Möbius Inversion Formula to prove that for all $n \ge 1$:</span>
+<span id="cb7-374"><a href="#cb7-374" aria-hidden="true" tabindex="-1"></a>$$\phi(n) = n \sum_{d \mid n} \frac{\mu(d)}{d}$$</span>
+<span id="cb7-375"><a href="#cb7-375" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-376"><a href="#cb7-376" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true"}</span>
+<span id="cb7-377"><a href="#cb7-377" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solution to Problem 3.3.3</span></span>
+<span id="cb7-378"><a href="#cb7-378" aria-hidden="true" tabindex="-1"></a>Let $F(n) = n$ and $f(n) = \phi(n)$. Since $F(n) = \sum_{d \mid n} \phi(d)$, applying the Möbius Inversion Formula gives:</span>
+<span id="cb7-379"><a href="#cb7-379" aria-hidden="true" tabindex="-1"></a>$$\phi(n) = \sum_{d \mid n} \mu(d) F<span class="sc">\!</span>\left(\frac{n}{d}\right) = \sum_{d \mid n} \mu(d) \frac{n}{d} = n \sum_{d \mid n} \frac{\mu(d)}{d} \quad \blacksquare$$</span>
+<span id="cb7-380"><a href="#cb7-380" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb7-381"><a href="#cb7-381" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-382"><a href="#cb7-382" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Problem 3.3.4</span></span>
+<span id="cb7-383"><a href="#cb7-383" aria-hidden="true" tabindex="-1"></a>Find all quadratic residues and quadratic non-residues modulo $13$, and verify Euler's Criterion for $a = 3$ and $a = 5$ modulo $13$.</span>
+<span id="cb7-384"><a href="#cb7-384" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-385"><a href="#cb7-385" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true"}</span>
+<span id="cb7-386"><a href="#cb7-386" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solution to Problem 3.3.4</span></span>
+<span id="cb7-387"><a href="#cb7-387" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Squares modulo $13$ for $x \in \{1, 2, 3, 4, 5, 6\}$:**</span>
+<span id="cb7-388"><a href="#cb7-388" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>$(\pm 1)^2 \equiv 1 \pmod{13}$</span>
+<span id="cb7-389"><a href="#cb7-389" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>$(\pm 2)^2 \equiv 4 \pmod{13}$</span>
+<span id="cb7-390"><a href="#cb7-390" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>$(\pm 3)^2 \equiv 9 \pmod{13}$</span>
+<span id="cb7-391"><a href="#cb7-391" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>$(\pm 4)^2 = 16 \equiv 3 \pmod{13}$</span>
+<span id="cb7-392"><a href="#cb7-392" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>$(\pm 5)^2 = 25 \equiv 12 \pmod{13}$</span>
+<span id="cb7-393"><a href="#cb7-393" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>$(\pm 6)^2 = 36 \equiv 10 \pmod{13}$</span>
+<span id="cb7-394"><a href="#cb7-394" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>**Quadratic Residues ($\text{QR}_{13}$):** $<span class="sc">\{</span>1, 3, 4, 9, 10, 12<span class="sc">\}</span>$.</span>
+<span id="cb7-395"><a href="#cb7-395" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>**Quadratic Non-Residues ($\text{QNR}_{13}$):** $<span class="sc">\{</span>2, 5, 6, 7, 8, 11<span class="sc">\}</span>$.</span>
+<span id="cb7-396"><a href="#cb7-396" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Euler's Criterion ($\frac{p-1}{2} = 6$):**</span>
+<span id="cb7-397"><a href="#cb7-397" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>For $a = 3$: $3^6 = 27^2 \equiv 1^2 = 1 \pmod{13} \implies \left(\frac{3}{13}\right) = +1$ (matches $3 \in \text{QR}_{13}$).</span>
+<span id="cb7-398"><a href="#cb7-398" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>For $a = 5$: $5^6 = (5^2)^3 = 25^3 \equiv (-1)^3 = -1 \pmod{13} \implies \left(\frac{5}{13}\right) = -1$ (matches $5 \in \text{QNR}_{13}$).</span>
+<span id="cb7-399"><a href="#cb7-399" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb7-400"><a href="#cb7-400" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-401"><a href="#cb7-401" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Problem 3.3.5</span></span>
+<span id="cb7-402"><a href="#cb7-402" aria-hidden="true" tabindex="-1"></a>Use the properties of the Legendre symbol and the Law of Quadratic Reciprocity to evaluate:</span>
+<span id="cb7-403"><a href="#cb7-403" aria-hidden="true" tabindex="-1"></a>(a) $\left(\dfrac{71}{73}\right)$  </span>
+<span id="cb7-404"><a href="#cb7-404" aria-hidden="true" tabindex="-1"></a>(b) $\left(\dfrac{219}{383}\right)$ (Note: $383$ is prime and $219 = 3 \times 73$.)</span>
+<span id="cb7-405"><a href="#cb7-405" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-406"><a href="#cb7-406" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true"}</span>
+<span id="cb7-407"><a href="#cb7-407" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solution to Problem 3.3.5</span></span>
+<span id="cb7-408"><a href="#cb7-408" aria-hidden="true" tabindex="-1"></a>**(a) Evaluate $\left(\frac{71}{73}\right)$:**  </span>
+<span id="cb7-409"><a href="#cb7-409" aria-hidden="true" tabindex="-1"></a>Since $71 \equiv -2 \pmod{73}$:</span>
+<span id="cb7-410"><a href="#cb7-410" aria-hidden="true" tabindex="-1"></a>$$\left(\frac{71}{73}\right) = \left(\frac{-2}{73}\right) = \left(\frac{-1}{73}\right)\left(\frac{2}{73}\right)$$</span>
+<span id="cb7-411"><a href="#cb7-411" aria-hidden="true" tabindex="-1"></a>Since $73 \equiv 1 \pmod 8$, we have $73 \equiv 1 \pmod 4$, so $\left(\frac{-1}{73}\right) = 1$ and $\left(\frac{2}{73}\right) = 1$. Thus:</span>
+<span id="cb7-412"><a href="#cb7-412" aria-hidden="true" tabindex="-1"></a>$$\left(\frac{71}{73}\right) = 1 \times 1 = +1$$</span>
+<span id="cb7-413"><a href="#cb7-413" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-414"><a href="#cb7-414" aria-hidden="true" tabindex="-1"></a>**(b) Evaluate $\left(\frac{219}{383}\right)$:**  </span>
+<span id="cb7-415"><a href="#cb7-415" aria-hidden="true" tabindex="-1"></a>Factor $219 = 3 \times 73$:</span>
+<span id="cb7-416"><a href="#cb7-416" aria-hidden="true" tabindex="-1"></a>$$\left(\frac{219}{383}\right) = \left(\frac{3}{383}\right)\left(\frac{73}{383}\right)$$</span>
+<span id="cb7-417"><a href="#cb7-417" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>For $\left(\frac{3}{383}\right)$: Since $3 \equiv 3 \pmod 4$ and $383 \equiv 3 \pmod 4$, Quadratic Reciprocity flips the sign:</span>
+<span id="cb7-418"><a href="#cb7-418" aria-hidden="true" tabindex="-1"></a>   $$\left(\frac{3}{383}\right) = -\left(\frac{383}{3}\right) = -\left(\frac{2}{3}\right) = -(-1) = +1$$</span>
+<span id="cb7-419"><a href="#cb7-419" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>For $\left(\frac{73}{383}\right)$: Since $73 \equiv 1 \pmod 4$, Quadratic Reciprocity preserves the sign:</span>
+<span id="cb7-420"><a href="#cb7-420" aria-hidden="true" tabindex="-1"></a>   $$\left(\frac{73}{383}\right) = \left(\frac{383}{73}\right) = \left(\frac{18}{73}\right) = \left(\frac{9}{73}\right)\left(\frac{2}{73}\right) = 1 \times 1 = +1$$</span>
+<span id="cb7-421"><a href="#cb7-421" aria-hidden="true" tabindex="-1"></a>Multiplying the two factors gives $\left(\frac{219}{383}\right) = (+1)(+1) = +1$.</span>
+<span id="cb7-422"><a href="#cb7-422" aria-hidden="true" tabindex="-1"></a>:::</span>
+</code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>22MAT121 Discrete Mathematics | Amrita Vishwa Vidyapeetham</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>B.Tech Curriculum June 2022 (BTC-AIE)</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

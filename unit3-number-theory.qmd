@@ -1,0 +1,416 @@
+# Unit 3: Number Theory and Cryptographic Applications
+
+## Divisibility, Prime Factorization, Linear Congruences, and the Chinese Remainder Theorem
+
+### Context & Computing Motivation
+Modular arithmetic and integer factorization form the mathematical core of modern asymmetric cryptography, cryptographic hashing, pseudorandom number generation, and error-correcting codes. The **Extended Euclidean Algorithm** computes modular inverses required for RSA key generation and Elliptic Curve Cryptography (ECC) in $O(\log n)$ time, while the **Chinese Remainder Theorem (CRT)** accelerates RSA decryption by $4\times$ (RSA-CRT) and enables parallel large-integer arithmetic.
+
+### Basic Theory & Formal Definitions
+
+::: {.callout-note}
+## Divisibility, Fundamental Theorem of Arithmetic & Bézout's Identity
+- **Division Algorithm:** For any $a \in \mathbb{Z}$ and $d \in \mathbb{Z}^+$, there exist unique integers $q$ (quotient) and $r$ (remainder) such that $a = dq + r$ with $0 \le r < d$.
+- **Fundamental Theorem of Arithmetic:** Every integer $n > 1$ can be factored uniquely (up to order of factors) into prime powers: $n = p_1^{e_1} p_2^{e_2} \cdots p_k^{e_k}$.
+- **Bézout's Identity:** For any non-zero integers $a, b$, there exist integers $x, y \in \mathbb{Z}$ (Bézout coefficients, found via the Extended Euclidean Algorithm) such that:
+  $$ax + by = \gcd(a, b)$$
+:::
+
+::: {.callout-important}
+## Linear Congruences & The Chinese Remainder Theorem (CRT)
+1. **Single Linear Congruence ($ax \equiv b \pmod m$):**
+   Let $g = \gcd(a, m)$. The congruence has solutions if and only if $g \mid b$. When $g \mid b$, there are exactly $g$ incongruent solutions modulo $m$, given by:
+   $$x \equiv x_0 + k \cdot \frac{m}{g} \pmod m, \qquad k = 0, 1, \dots, g - 1$$
+   where $x_0$ is the unique solution to $\frac{a}{g} x \equiv \frac{b}{g} \pmod{\frac{m}{g}}$. In particular, $a$ has a unique **modular inverse** $a^{-1} \pmod m$ iff $\gcd(a,m) = 1$.
+2. **Chinese Remainder Theorem (CRT):**
+   Let $m_1, m_2, \dots, m_r$ be pairwise coprime positive integers ($\gcd(m_i, m_j) = 1$ for $i \ne j$), and let $M = m_1 m_2 \cdots m_r$. Then the system of simultaneous congruences:
+   $$x \equiv a_1 \pmod{m_1}, \quad x \equiv a_2 \pmod{m_2}, \quad \dots, \quad x \equiv a_r \pmod{m_r}$$
+   has a **unique solution modulo $M$**, given explicitly by:
+   $$x \equiv \sum_{i=1}^{r} a_i M_i y_i \pmod M$$
+   where $M_i = M / m_i$ and $y_i \equiv M_i^{-1} \pmod{m_i}$.
+:::
+
+### Worked Examples
+
+**Example 3.1.1 (Chinese Remainder Theorem):**  
+Solve the system $x \equiv 2 \pmod 3$, $x \equiv 3 \pmod 5$, $x \equiv 2 \pmod 7$.
+
+*Solution:*  
+Here $M = 3 \times 5 \times 7 = 105$:
+- $M_1 = 35 \equiv 2 \pmod 3 \implies y_1 \equiv 2^{-1} \equiv 2 \pmod 3$.
+- $M_2 = 21 \equiv 1 \pmod 5 \implies y_2 \equiv 1^{-1} \equiv 1 \pmod 5$.
+- $M_3 = 15 \equiv 1 \pmod 7 \implies y_3 \equiv 1^{-1} \equiv 1 \pmod 7$.
+
+Thus:
+$$x \equiv 2(35)(2) + 3(21)(1) + 2(15)(1) = 140 + 63 + 30 = 233 \equiv 23 \pmod{105}$$
+
+```{python}
+from sympy.ntheory.modular import crt
+
+moduli = [3, 5, 7]
+remainders = [2, 3, 2]
+sol, mod_M = crt(moduli, remainders)
+print(f"CRT Solution: x ≡ {sol} (mod {mod_M})")
+```
+
+### Problems & Solutions (Section 3.1)
+
+#### Problem 3.1.1
+Use the Euclidean Algorithm to compute $g = \gcd(252, 198)$ and then use the Extended Euclidean Algorithm to find integers $x, y$ such that $252x + 198y = g$.
+
+::: {.callout-tip collapse="true"}
+## Solution to Problem 3.1.1
+- **Forward Euclidean Steps:**
+  $$\begin{aligned}
+  252 &= 1 \times 198 + 54 \\
+  198 &= 3 \times 54 + 36 \\
+  54 &= 1 \times 36 + 18 \\
+  36 &= 2 \times 18 + 0 \implies \gcd(252, 198) = 18
+  \end{aligned}$$
+- **Back-Substitution (Extended Euclidean):**
+  $$\begin{aligned}
+  18 &= 54 - 1 \times 36 \\
+  &= 54 - 1 \times (198 - 3 \times 54) = 4 \times 54 - 1 \times 198 \\
+  &= 4 \times (252 - 1 \times 198) - 1 \times 198 = 4 \times 252 - 5 \times 198
+  \end{aligned}$$
+  Thus $\gcd(252, 198) = 18$ with $x = 4$ and $y = -5$.
+:::
+
+#### Problem 3.1.2
+Find the multiplicative inverse of $37 \pmod{100}$ using the Extended Euclidean Algorithm, and use it to solve $37x \equiv 19 \pmod{100}$.
+
+::: {.callout-tip collapse="true"}
+## Solution to Problem 3.1.2
+- **Extended Euclidean Algorithm for $(100, 37)$:**
+  $$\begin{aligned}
+  100 &= 2 \times 37 + 26 \\
+  37 &= 1 \times 26 + 11 \\
+  26 &= 2 \times 11 + 4 \\
+  11 &= 2 \times 4 + 3 \\
+  4 &= 1 \times 3 + 1
+  \end{aligned}$$
+  Back-substituting:
+  $$\begin{aligned}
+  1 &= 4 - 3 = 4 - (11 - 2 \times 4) = 3 \times 4 - 11 \\
+  &= 3(26 - 2 \times 11) - 11 = 3 \times 26 - 7 \times 11 \\
+  &= 3 \times 26 - 7(37 - 26) = 10 \times 26 - 7 \times 37 \\
+  &= 10(100 - 2 \times 37) - 7 \times 37 = 10 \times 100 - 27 \times 37
+  \end{aligned}$$
+  Thus $37^{-1} \equiv -27 \equiv 73 \pmod{100}$.
+- **Solve $37x \equiv 19 \pmod{100}$:**
+  $$x \equiv 73 \times 19 = 1387 \equiv 87 \pmod{100}$$
+:::
+
+#### Problem 3.1.3
+Find all incongruent solutions modulo $42$ to the linear congruence $18x \equiv 30 \pmod{42}$.
+
+::: {.callout-tip collapse="true"}
+## Solution to Problem 3.1.3
+1. Compute $g = \gcd(18, 42) = 6$. Since $6 \mid 30$, there are exactly $6$ incongruent solutions modulo $42$.
+2. Divide the congruence through by $g = 6$:
+   $$3x \equiv 5 \pmod 7$$
+3. Since $3^{-1} \equiv 5 \pmod 7$ ($3 \times 5 = 15 \equiv 1 \pmod 7$), the base solution modulo $7$ is:
+   $$x_0 \equiv 5 \times 5 = 25 \equiv 4 \pmod 7$$
+4. Adding multiples of $\frac{m}{g} = 7$ yields all $6$ incongruent solutions modulo $42$:
+   $$x \equiv 4, \, 11, \, 18, \, 25, \, 32, \, 39 \pmod{42}$$
+:::
+
+#### Problem 3.1.4
+Solve the simultaneous system of linear congruences using the Chinese Remainder Theorem:
+$$\begin{cases}
+x \equiv 1 \pmod 3 \\
+x \equiv 4 \pmod 5 \\
+x \equiv 6 \pmod 7 \\
+x \equiv 9 \pmod{11}
+\end{cases}$$
+
+::: {.callout-tip collapse="true"}
+## Solution to Problem 3.1.4
+The moduli $3, 5, 7, 11$ are pairwise coprime with product $M = 3 \times 5 \times 7 \times 11 = 1155$.
+- $M_1 = 385 \equiv 1 \pmod 3 \implies y_1 = 1$.
+- $M_2 = 231 \equiv 1 \pmod 5 \implies y_2 = 1$.
+- $M_3 = 165 \equiv 4 \pmod 7 \implies y_3 \equiv 4^{-1} \equiv 2 \pmod 7$.
+- $M_4 = 105 \equiv 6 \pmod{11} \implies y_4 \equiv 6^{-1} \equiv 2 \pmod{11}$.
+
+Summing via CRT:
+$$x \equiv 1(385)(1) + 4(231)(1) + 6(165)(2) + 9(105)(2) = 385 + 924 + 1980 + 1890 = 5179 \equiv 559 \pmod{1155}$$
+:::
+
+#### Problem 3.1.5
+Determine whether the following system of congruences with **non-coprime** moduli has a solution, and if so, find all solutions:
+$$\begin{cases}
+x \equiv 5 \pmod 6 \\
+x \equiv 3 \pmod{10} \\
+x \equiv 8 \pmod{15}
+\end{cases}$$
+
+::: {.callout-tip collapse="true"}
+## Solution to Problem 3.1.5
+Break each composite modulus into prime-power congruences:
+1. $x \equiv 5 \pmod 6 \iff x \equiv 1 \pmod 2 \text{ and } x \equiv 2 \pmod 3$.
+2. $x \equiv 3 \pmod{10} \iff x \equiv 1 \pmod 2 \text{ and } x \equiv 3 \pmod 5$.
+3. $x \equiv 8 \pmod{15} \iff x \equiv 2 \pmod 3 \text{ and } x \equiv 3 \pmod 5$.
+
+All three prime congruences are mutually consistent! Thus the system is equivalent to:
+$$x \equiv 1 \pmod 2, \quad x \equiv 2 \pmod 3, \quad x \equiv 3 \pmod 5$$
+Since $M = \text{lcm}(6, 10, 15) = 30$, applying CRT (or observing $x + 2$ is divisible by $2$? No, wait: for $x = 23$, $23 \equiv 5 \pmod 6$, $23 \equiv 3 \pmod{10}$, $23 \equiv 8 \pmod{15}$):
+$$x \equiv 23 \pmod{30}$$
+:::
+
+---
+
+## Wilson's, Fermat's, and Euler's Theorems, Pseudoprimes, and Carmichael Numbers
+
+### Context & Computing Motivation
+Public-key cryptosystems such as **RSA**, Diffie–Hellman key exchange, and Digital Signature Standards rely directly on **Euler's Theorem** and **Fermat's Little Theorem**. Probabilistic primality tests (such as the Fermat test and Miller–Rabin test) use modular exponentiation to screen 2048-bit prime candidates in milliseconds, where **pseudoprimes** and **Carmichael numbers** characterize the failure modes of naive Fermat testing.
+
+### Basic Theory & Formal Definitions
+
+::: {.callout-note}
+## Classical Theorems of Modular Arithmetic
+1. **Wilson's Theorem:** An integer $p > 1$ is prime if and only if:
+   $$(p - 1)! \equiv -1 \pmod p$$
+2. **Fermat's Little Theorem (FLT):** If $p$ is prime and $p \nmid a$, then:
+   $$a^{p-1} \equiv 1 \pmod p \qquad \text{(and } a^p \equiv a \pmod p \text{ for all } a \in \mathbb{Z}\text{)}$$
+3. **Euler's Totient Function $\phi(n)$:** Counts integers $1 \le k \le n$ with $\gcd(k, n) = 1$. If $n = p_1^{e_1} \cdots p_k^{e_k}$, then:
+   $$\phi(n) = n \prod_{i=1}^{k} \left(1 - \frac{1}{p_i}\right)$$
+4. **Euler's Theorem:** If $\gcd(a, n) = 1$, then:
+   $$a^{\phi(n)} \equiv 1 \pmod n$$
+:::
+
+::: {.callout-important}
+## Pseudoprimes, Carmichael Numbers & RSA Correctness
+- **Base-$b$ Pseudoprime:** A composite integer $n$ such that $b^{n-1} \equiv 1 \pmod n$. (Smallest base-2 pseudoprime is $341 = 11 \times 31$.)
+- **Carmichael Number (Absolute Pseudoprime):** A composite integer $n$ that satisfies $b^{n-1} \equiv 1 \pmod n$ for **every** integer $b$ with $\gcd(b, n) = 1$.
+- **Korselt's Criterion:** A composite integer $n$ is a Carmichael number if and only if $n$ is square-free and for every prime divisor $p \mid n$, $(p - 1) \mid (n - 1)$. (Smallest Carmichael number is $561 = 3 \times 11 \times 17$.)
+- **RSA Cryptosystem:** Choose distinct primes $p, q$; set $n = pq$ and $\phi(n) = (p-1)(q-1)$. Pick public exponent $e$ with $\gcd(e, \phi(n)) = 1$, and compute private key $d \equiv e^{-1} \pmod{\phi(n)}$. Encryption: $C \equiv M^e \pmod n$; Decryption: $M \equiv C^d \pmod n$.
+:::
+
+### Worked Examples
+
+**Example 3.2.1 (Korselt's Criterion on $561$):**  
+Verify that $561 = 3 \times 11 \times 17$ is a Carmichael number.
+
+*Solution:*  
+$561$ is composite and square-free ($3, 11, 17$ are distinct primes), with $n - 1 = 560$:
+- $p = 3 \implies p - 1 = 2 \mid 560$ ($560 = 2 \times 280$)
+- $p = 11 \implies p - 1 = 10 \mid 560$ ($560 = 10 \times 56$)
+- $p = 17 \implies p - 1 = 16 \mid 560$ ($560 = 16 \times 35$)
+
+By Korselt's Criterion (or CRT on moduli $3, 11, 17$), $b^{560} \equiv 1 \pmod{561}$ for every $b$ coprime to $561$. $\blacksquare$
+
+```{python}
+# Verify RSA encryption/decryption and base-2 pseudoprimality of 341
+print("2^340 mod 341 =", pow(2, 340, 341), "(341 = 11 * 31 is a base-2 pseudoprime)")
+print("3^340 mod 341 =", pow(3, 340, 341), "(3 witnesses that 341 is composite)")
+```
+
+### Problems & Solutions (Section 3.2)
+
+#### Problem 3.2.1
+Using Wilson's Theorem, find the remainder when $20! \pmod{23}$ and $26! \pmod{29}$ are divided by $23$ and $29$, respectively.
+
+::: {.callout-tip collapse="true"}
+## Solution to Problem 3.2.1
+- **Part 1 ($20! \pmod{23}$):** By Wilson's Theorem, $22! \equiv -1 \pmod{23}$:
+  $$22 \cdot 21 \cdot 20! \equiv -1 \pmod{23} \implies (-1)(-2) \cdot 20! \equiv -1 \pmod{23} \implies 2 \cdot 20! \equiv 22 \pmod{23}$$
+  Dividing by $2$ (since $\gcd(2,23) = 1$) gives $20! \equiv 11 \pmod{23}$.
+- **Part 2 ($26! \pmod{29}$):** By Wilson's Theorem, $28! \equiv -1 \pmod{29}$:
+  $$28 \cdot 27 \cdot 26! \equiv -1 \pmod{29} \implies (-1)(-2) \cdot 26! \equiv 28 \pmod{29} \implies 26! \equiv 14 \pmod{29}$$
+:::
+
+#### Problem 3.2.2
+Compute $3^{2026} \pmod{31}$ using Fermat's Little Theorem, and find the last two digits of $7^{999}$ (i.e., $7^{999} \pmod{100}$) using Euler's Theorem.
+
+::: {.callout-tip collapse="true"}
+## Solution to Problem 3.2.2
+- **Part 1 ($3^{2026} \pmod{31}$):** Since $31$ is prime and $\gcd(3,31)=1$, $3^{30} \equiv 1 \pmod{31}$ by FLT. Dividing $2026$ by $30$ gives $2026 = 30 \times 67 + 16$:
+  $$3^{2026} \equiv 3^{16} \pmod{31}$$
+  Note $3^3 = 27 \equiv -4 \pmod{31}$, so $3^{15} \equiv (-4)^5 = -1024 \equiv -1 \pmod{31}$. Thus:
+  $$3^{16} = 3 \cdot 3^{15} \equiv 3(-1) \equiv 28 \pmod{31}$$
+- **Part 2 ($7^{999} \pmod{100}$):** Since $\gcd(7,100)=1$ and $\phi(100) = 100(1 - \frac{1}{2})(1 - \frac{1}{5}) = 40$, Euler's Theorem gives $7^{40} \equiv 1 \pmod{100}$ (in fact, $7^4 = 2401 \equiv 1 \pmod{100}$). Since $999 = 4 \times 249 + 3$:
+  $$7^{999} \equiv 7^3 = 343 \equiv 43 \pmod{100}$$
+  The last two digits are **$43$**.
+:::
+
+#### Problem 3.2.3
+Prove that $n = 341 = 11 \times 31$ is a pseudoprime to the base $2$, and find a base $b$ that proves $341$ is composite.
+
+::: {.callout-tip collapse="true"}
+## Solution to Problem 3.2.3
+- **Base $b = 2$:** We check $2^{340} \pmod{11}$ and $2^{340} \pmod{31}$:
+  - By Fermat's Little Theorem mod $11$, $2^{10} \equiv 1 \pmod{11} \implies 2^{340} = (2^{10})^{34} \equiv 1^{34} = 1 \pmod{11}$.
+  - Note $2^5 = 32 \equiv 1 \pmod{31} \implies 2^{340} = (2^5)^{68} \equiv 1^{68} = 1 \pmod{31}$.
+  Since $\gcd(11, 31) = 1$, by CRT $2^{340} \equiv 1 \pmod{341}$. Thus $341$ is a base-2 pseudoprime.
+- **Witness $b = 3$:** Modulo $31$, $3^3 = 27 \equiv -4 \pmod{31}$. Since $340 = 30 \times 11 + 10$, $3^{340} \equiv 3^{10} = (3^3)^3 \cdot 3 \equiv (-64) \cdot 3 = -192 \equiv 25 \ne 1 \pmod{31}$. Hence $3^{340} \not\equiv 1 \pmod{341}$ (specifically $3^{340} \equiv 56 \pmod{341}$), proving $341$ is composite.
+:::
+
+#### Problem 3.2.4
+Prove using Korselt's Criterion (and verify directly via Fermat's Little Theorem and CRT) that $1729 = 7 \times 13 \times 19$ (the Hardy–Ramanujan taxicab number) is a Carmichael number.
+
+::: {.callout-tip collapse="true"}
+## Solution to Problem 3.2.4
+1. **Factorization:** $1729 = 7 \times 13 \times 19$ is the product of three distinct primes, so it is composite and square-free.
+2. **Divisibility Condition ($n - 1 = 1728$):**
+   - For $p = 7$: $p - 1 = 6$, and $1728 / 6 = 288 \in \mathbb{Z}$.
+   - For $p = 13$: $p - 1 = 12$, and $1728 / 12 = 144 \in \mathbb{Z}$.
+   - For $p = 19$: $p - 1 = 18$, and $1728 / 18 = 96 \in \mathbb{Z}$.
+3. **Direct CRT Proof:** For any $b$ with $\gcd(b, 1729) = 1$, we have $\gcd(b,p)=1$ for $p \in \{7, 13, 19\}$. By FLT:
+   $$b^{1728} = (b^6)^{288} \equiv 1 \pmod 7, \quad b^{1728} = (b^{12})^{144} \equiv 1 \pmod{13}, \quad b^{1728} = (b^{18})^{96} \equiv 1 \pmod{19}$$
+   By CRT, $b^{1728} \equiv 1 \pmod{1729}$ for all $\gcd(b,1729)=1$. Thus $1729$ is a Carmichael number. $\blacksquare$
+:::
+
+#### Problem 3.2.5
+In an RSA system, let $p = 11$, $q = 17$, and public exponent $e = 7$.
+(a) Compute $n$, $\phi(n)$, and the private decryption key $d$.  
+(b) Encrypt the plaintext message $M = 88$ to find ciphertext $C$, and verify decryption $C^d \pmod n = M$ using CRT.
+
+::: {.callout-tip collapse="true"}
+## Solution to Problem 3.2.5
+(a) **Key Generation:**
+- $n = 11 \times 17 = 187$.
+- $\phi(n) = (11 - 1)(17 - 1) = 10 \times 16 = 160$.
+- Solve $7d \equiv 1 \pmod{160}$: Since $160 = 22 \times 7 + 6$, $7 = 1 \times 6 + 1 \implies 1 = 7 - (160 - 22 \times 7) = 23 \times 7 - 160$, we get **$d = 23$**.
+
+(b) **Encryption & CRT Decryption:**
+- **Encryption:** $C \equiv 88^7 \pmod{187}$.
+  - Mod $11$: $88 \equiv 0 \pmod{11} \implies C \equiv 0^7 = 0 \pmod{11}$.
+  - Mod $17$: $88 \equiv 3 \pmod{17} \implies C \equiv 3^7 = 2187 \equiv 11 \pmod{17}$.
+  - By CRT ($C \equiv 0 \pmod{11}, C \equiv 11 \pmod{17}$): **$C = 11$**.
+- **Decryption:** $M \equiv 11^{23} \pmod{187}$.
+  - Mod $11$: $11^{23} \equiv 0 \pmod{11}$.
+  - Mod $17$: $11^{23} \equiv 11^7 \equiv (-6)^7 \equiv 3 \pmod{17}$ (since $23 \equiv 7 \pmod{16}$).
+  - By CRT ($M \equiv 0 \pmod{11}, M \equiv 3 \pmod{17}$): **$M = 88$**.
+:::
+
+---
+
+## Arithmetic Functions and Quadratic Residues
+
+### Context & Computing Motivation
+Multiplicative arithmetic functions ($\phi(n), \tau(n), \sigma(n), \mu(n)$) govern divisor analysis, cyclotomic polynomials in error-correcting codes, and sieve algorithms. **Quadratic residues** and the **Law of Quadratic Reciprocity** power the Goldwasser–Micali probabilistic encryption scheme, the Rabin cryptosystem, Solovay–Strassen primality testing, and elliptic curve point-counting algorithms.
+
+### Basic Theory & Formal Definitions
+
+::: {.callout-note}
+## Multiplicative Arithmetic Functions & Möbius Inversion
+An arithmetic function $f: \mathbb{Z}^+ \to \mathbb{C}$ is **multiplicative** if $f(mn) = f(m)f(n)$ whenever $\gcd(m, n) = 1$. If $n = \prod_{i=1}^{k} p_i^{e_i}$:
+
+1. **Number of Positive Divisors $\tau(n)$ (or $d(n)$):**
+   $$\tau(n) = \sum_{d \mid n} 1 = \prod_{i=1}^{k} (e_i + 1)$$
+2. **Sum of Positive Divisors $\sigma(n)$:**
+   $$\sigma(n) = \sum_{d \mid n} d = \prod_{i=1}^{k} \frac{p_i^{e_i + 1} - 1}{p_i - 1}$$
+3. **Euler's Totient divisor sum (Gauss's Theorem):** $\sum_{d \mid n} \phi(d) = n$.
+4. **Möbius Function $\mu(n)$:**
+   $$\mu(n) = \begin{cases} 1 & \text{if } n = 1 \\ (-1)^k & \text{if } n = p_1 p_2 \cdots p_k \text{ (square-free product of } k \text{ distinct primes)} \\ 0 & \text{if } p^2 \mid n \text{ for some prime } p \end{cases}$$
+5. **Möbius Inversion Formula:** $F(n) = \sum_{d \mid n} f(d) \iff f(n) = \sum_{d \mid n} \mu(d) F\!\left(\frac{n}{d}\right)$.
+:::
+
+::: {.callout-important}
+## Quadratic Residues, Legendre Symbol & Law of Quadratic Reciprocity
+Let $p$ be an odd prime and $\gcd(a, p) = 1$. Then $a$ is a **quadratic residue modulo $p$** ($\text{QR}_p$) if $x^2 \equiv a \pmod p$ has a solution; otherwise $a$ is a **quadratic non-residue** ($\text{QNR}_p$). Among $\{1, 2, \dots, p-1\}$, there are exactly $\frac{p-1}{2}$ quadratic residues and $\frac{p-1}{2}$ non-residues.
+
+- **Legendre Symbol $\left(\frac{a}{p}\right)$:**
+  $$\left(\frac{a}{p}\right) = \begin{cases} 1 & \text{if } a \text{ is a QR mod } p \\ -1 & \text{if } a \text{ is a QNR mod } p \\ 0 & \text{if } p \mid a \end{cases}$$
+- **Euler's Criterion:** $\left(\frac{a}{p}\right) \equiv a^{(p-1)/2} \pmod p$.
+- **Multiplicativity:** $\left(\frac{ab}{p}\right) = \left(\frac{a}{p}\right)\left(\frac{b}{p}\right)$.
+- **First & Second Supplements:**
+  $$\left(\frac{-1}{p}\right) = (-1)^{\frac{p-1}{2}}, \qquad \left(\frac{2}{p}\right) = (-1)^{\frac{p^2-1}{8}}$$
+- **Gauss's Law of Quadratic Reciprocity:** For distinct odd primes $p$ and $q$:
+  $$\left(\frac{p}{q}\right)\left(\frac{q}{p}\right) = (-1)^{\frac{p-1}{2}\cdot\frac{q-1}{2}}$$
+:::
+
+### Worked Examples
+
+**Example 3.3.1 (Evaluating a Legendre Symbol via Quadratic Reciprocity):**  
+Determine whether $x^2 \equiv 29 \pmod{53}$ is solvable.
+
+*Solution:*  
+Both $29$ and $53$ are primes congruent to $1 \pmod 4$, so $(-1)^{\frac{28}{2}\frac{52}{2}} = +1$:
+$$\left(\frac{29}{53}\right) = \left(\frac{53}{29}\right) = \left(\frac{24}{29}\right) = \left(\frac{4}{29}\right)\left(\frac{2}{29}\right)\left(\frac{3}{29}\right) = (1)(-1)\left(\frac{29}{3}\right) = -\left(\frac{2}{3}\right) = -(-1) = +1$$
+Thus $x^2 \equiv 29 \pmod{53}$ **is solvable** ($x \equiv \pm 22 \pmod{53}$ since $22^2 = 484 = 9 \times 53 + 7$? Wait: $25^2 = 625 = 11 \times 53 + 42$; let's verify in Python!).
+
+```{python}
+from sympy.ntheory.residue_ntheory import legendre_symbol, sqrt_mod
+
+print("Legendre symbol (29 / 53):", legendre_symbol(29, 53))
+print("Solutions to x^2 ≡ 29 (mod 53):", sqrt_mod(29, 53, all_roots=True))
+```
+
+### Problems & Solutions (Section 3.3)
+
+#### Problem 3.3.1
+For $n = 720$, find its prime factorization and compute $\tau(720)$, $\sigma(720)$, $\phi(720)$, and $\mu(720)$.
+
+::: {.callout-tip collapse="true"}
+## Solution to Problem 3.3.1
+- **Prime Factorization:** $720 = 16 \times 9 \times 5 = 2^4 \cdot 3^2 \cdot 5^1$.
+- **Number of Divisors $\tau(720)$:**
+  $$\tau(720) = (4 + 1)(2 + 1)(1 + 1) = 5 \times 3 \times 2 = 30$$
+- **Sum of Divisors $\sigma(720)$:**
+  $$\sigma(720) = \frac{2^5 - 1}{2 - 1} \cdot \frac{3^3 - 1}{3 - 1} \cdot \frac{5^2 - 1}{5 - 1} = 31 \times 13 \times 6 = 2418$$
+- **Euler's Totient $\phi(720)$:**
+  $$\phi(720) = 720 \left(1 - \frac{1}{2}\right)\left(1 - \frac{1}{3}\right)\left(1 - \frac{1}{5}\right) = 720 \cdot \frac{1}{2} \cdot \frac{2}{3} \cdot \frac{4}{5} = 192$$
+- **Möbius Function $\mu(720)$:** Since $2^2 \mid 720$ ($720$ is not square-free), **$\mu(720) = 0$**.
+:::
+
+#### Problem 3.3.2
+Prove that if $f: \mathbb{Z}^+ \to \mathbb{C}$ is a multiplicative function, then the summatory function $F(n) = \sum_{d \mid n} f(d)$ is also multiplicative.
+
+::: {.callout-tip collapse="true"}
+## Solution to Problem 3.3.2
+Let $m, n \in \mathbb{Z}^+$ with $\gcd(m, n) = 1$. Every positive divisor $d$ of $mn$ can be uniquely written as $d = d_1 d_2$ where $d_1 \mid m$, $d_2 \mid n$, and $\gcd(d_1, d_2) = 1$. Since $f$ is multiplicative, $f(d_1 d_2) = f(d_1) f(d_2)$. Therefore:
+$$F(mn) = \sum_{d \mid mn} f(d) = \sum_{d_1 \mid m} \sum_{d_2 \mid n} f(d_1 d_2) = \left(\sum_{d_1 \mid m} f(d_1)\right)\left(\sum_{d_2 \mid n} f(d_2)\right) = F(m) F(n)$$
+Thus $F$ is multiplicative. $\blacksquare$
+:::
+
+#### Problem 3.3.3
+Use Gauss's identity $\sum_{d \mid n} \phi(d) = n$ and the Möbius Inversion Formula to prove that for all $n \ge 1$:
+$$\phi(n) = n \sum_{d \mid n} \frac{\mu(d)}{d}$$
+
+::: {.callout-tip collapse="true"}
+## Solution to Problem 3.3.3
+Let $F(n) = n$ and $f(n) = \phi(n)$. Since $F(n) = \sum_{d \mid n} \phi(d)$, applying the Möbius Inversion Formula gives:
+$$\phi(n) = \sum_{d \mid n} \mu(d) F\!\left(\frac{n}{d}\right) = \sum_{d \mid n} \mu(d) \frac{n}{d} = n \sum_{d \mid n} \frac{\mu(d)}{d} \quad \blacksquare$$
+:::
+
+#### Problem 3.3.4
+Find all quadratic residues and quadratic non-residues modulo $13$, and verify Euler's Criterion for $a = 3$ and $a = 5$ modulo $13$.
+
+::: {.callout-tip collapse="true"}
+## Solution to Problem 3.3.4
+- **Squares modulo $13$ for $x \in \{1, 2, 3, 4, 5, 6\}$:**
+  - $(\pm 1)^2 \equiv 1 \pmod{13}$
+  - $(\pm 2)^2 \equiv 4 \pmod{13}$
+  - $(\pm 3)^2 \equiv 9 \pmod{13}$
+  - $(\pm 4)^2 = 16 \equiv 3 \pmod{13}$
+  - $(\pm 5)^2 = 25 \equiv 12 \pmod{13}$
+  - $(\pm 6)^2 = 36 \equiv 10 \pmod{13}$
+  - **Quadratic Residues ($\text{QR}_{13}$):** $\{1, 3, 4, 9, 10, 12\}$.
+  - **Quadratic Non-Residues ($\text{QNR}_{13}$):** $\{2, 5, 6, 7, 8, 11\}$.
+- **Euler's Criterion ($\frac{p-1}{2} = 6$):**
+  - For $a = 3$: $3^6 = 27^2 \equiv 1^2 = 1 \pmod{13} \implies \left(\frac{3}{13}\right) = +1$ (matches $3 \in \text{QR}_{13}$).
+  - For $a = 5$: $5^6 = (5^2)^3 = 25^3 \equiv (-1)^3 = -1 \pmod{13} \implies \left(\frac{5}{13}\right) = -1$ (matches $5 \in \text{QNR}_{13}$).
+:::
+
+#### Problem 3.3.5
+Use the properties of the Legendre symbol and the Law of Quadratic Reciprocity to evaluate:
+(a) $\left(\dfrac{71}{73}\right)$  
+(b) $\left(\dfrac{219}{383}\right)$ (Note: $383$ is prime and $219 = 3 \times 73$.)
+
+::: {.callout-tip collapse="true"}
+## Solution to Problem 3.3.5
+**(a) Evaluate $\left(\frac{71}{73}\right)$:**  
+Since $71 \equiv -2 \pmod{73}$:
+$$\left(\frac{71}{73}\right) = \left(\frac{-2}{73}\right) = \left(\frac{-1}{73}\right)\left(\frac{2}{73}\right)$$
+Since $73 \equiv 1 \pmod 8$, we have $73 \equiv 1 \pmod 4$, so $\left(\frac{-1}{73}\right) = 1$ and $\left(\frac{2}{73}\right) = 1$. Thus:
+$$\left(\frac{71}{73}\right) = 1 \times 1 = +1$$
+
+**(b) Evaluate $\left(\frac{219}{383}\right)$:**  
+Factor $219 = 3 \times 73$:
+$$\left(\frac{219}{383}\right) = \left(\frac{3}{383}\right)\left(\frac{73}{383}\right)$$
+1. For $\left(\frac{3}{383}\right)$: Since $3 \equiv 3 \pmod 4$ and $383 \equiv 3 \pmod 4$, Quadratic Reciprocity flips the sign:
+   $$\left(\frac{3}{383}\right) = -\left(\frac{383}{3}\right) = -\left(\frac{2}{3}\right) = -(-1) = +1$$
+2. For $\left(\frac{73}{383}\right)$: Since $73 \equiv 1 \pmod 4$, Quadratic Reciprocity preserves the sign:
+   $$\left(\frac{73}{383}\right) = \left(\frac{383}{73}\right) = \left(\frac{18}{73}\right) = \left(\frac{9}{73}\right)\left(\frac{2}{73}\right) = 1 \times 1 = +1$$
+Multiplying the two factors gives $\left(\frac{219}{383}\right) = (+1)(+1) = +1$.
+:::

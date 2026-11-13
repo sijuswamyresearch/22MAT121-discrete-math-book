@@ -1,0 +1,531 @@
+# Unit 1: Logic, Mathematical Reasoning, and Counting
+
+## Propositional Logic, Equivalence, Predicates, and Quantifiers
+
+### Context & Computing Motivation
+In artificial intelligence, automated theorem proving, hardware circuit synthesis, and software verification, formal logic serves as the foundational calculus of truth. Knowledge representation systems (such as SAT solvers, Prolog engines, and ontology reasoners) encode domain constraints using propositional formulas and first-order predicate logic. Determining whether two complex conditional specifications are equivalent allows compilers and query optimizers to simplify expressions without altering program semantics.
+
+### Basic Theory & Formal Definitions
+
+::: {.callout-note}
+## Definition: Proposition & Logical Connectives
+A **proposition** is a declarative sentence that is either true ($T$ or $1$) or false ($F$ or $0$), but not both. Given propositions $p$ and $q$, compound propositions are formed using logical connectives:
+
+1. **Negation ($\neg p$):** True if and only if $p$ is false.
+2. **Conjunction ($p \land q$):** True if and only if both $p$ and $q$ are true.
+3. **Disjunction ($p \lor q$):** True if at least one of $p$ or $q$ is true.
+4. **Exclusive OR ($p \oplus q$):** True if exactly one of $p$ or $q$ is true.
+5. **Implication ($p \to q$):** False only when $p$ is true and $q$ is false; equivalent to $\neg p \lor q$.
+   - **Converse:** $q \to p$
+   - **Contrapositive:** $\neg q \to \neg p$ (logically equivalent to $p \to q$)
+   - **Inverse:** $\neg p \to \neg q$
+6. **Biconditional ($p \leftrightarrow q$):** True when $p$ and $q$ have the same truth value; equivalent to $(p \to q) \land (q \to p)$.
+:::
+
+::: {.callout-important}
+## Fundamental Logical Equivalences
+A compound proposition that is always true is a **tautology** ($\mathbf{T}$); one that is always false is a **contradiction** ($\mathbf{F}$); one that is neither is a **contingency**. Two formulas $A$ and $B$ are **logically equivalent** ($A \equiv B$) if $A \leftrightarrow B$ is a tautology.
+
+- **De Morgan's Laws:** $\neg(p \land q) \equiv \neg p \lor \neg q$ and $\neg(p \lor q) \equiv \neg p \land \neg q$
+- **Distributive Laws:** $p \lor (q \land r) \equiv (p \lor q) \land (p \lor r)$ and $p \land (q \lor r) \equiv (p \land q) \lor (p \land r)$
+- **Absorption Laws:** $p \lor (p \land q) \equiv p$ and $p \land (p \lor q) \equiv p$
+- **Implication Identities:** $p \to q \equiv \neg p \lor q$ and $\neg(p \to q) \equiv p \land \neg q$
+:::
+
+#### Predicates and Quantifiers
+A **predicate** $P(x)$ is a declarative statement whose truth value depends on the variable $x$ drawn from a **domain of discourse** $D$.
+
+- **Universal Quantification ($\forall x \, P(x)$):** True when $P(x)$ holds for every $x \in D$. A single $x_0 \in D$ for which $P(x_0)$ is false is a **counterexample**.
+- **Existential Quantification ($\exists x \, P(x)$):** True when $P(x)$ holds for at least one $x \in D$.
+- **De Morgan's Laws for Quantifiers:**
+  $$\neg \forall x \, P(x) \equiv \exists x \, \neg P(x), \qquad \neg \exists x \, P(x) \equiv \forall x \, \neg P(x)$$
+- **Nested Quantifiers:** Order matters when quantifiers differ: $\forall x \exists y \, R(x,y)$ is generally not equivalent to $\exists y \forall x \, R(x,y)$, though $\exists y \forall x \, R(x,y) \to \forall x \exists y \, R(x,y)$ always holds.
+
+### Worked Examples
+
+**Example 1.1.1 (Equivalence Proof Without Truth Tables):**  
+Show that $\neg(p \lor (\neg p \land q)) \equiv \neg p \land \neg q$.
+
+*Solution:*
+
+$$\begin{aligned}
+\neg(p \lor (\neg p \land q)) &\equiv \neg p \land \neg(\neg p \land q) && \text{(De Morgan's Law)}\\
+&\equiv \neg p \land (\neg(\neg p) \lor \neg q) && \text{(De Morgan's Law)}\\
+&\equiv \neg p \land (p \lor \neg q) && \text{(Double Negation Law)}\\
+&\equiv (\neg p \land p) \lor (\neg p \land \neg q) && \text{(Distributive Law)}\\
+&\equiv \mathbf{F} \lor (\neg p \land \neg q) && \text{(Negation Law)}\\
+&\equiv \neg p \land \neg q && \text{(Identity Law)}
+\end{aligned}
+$$
+
+**Example 1.1.2 (Negating Nested Quantifiers in Analysis):**  
+Express the definition of limit $\lim_{x \to a} f(x) = L$ in predicate logic and negate it:
+$$\forall \varepsilon > 0 \, \exists \delta > 0 \, \forall x \, \big(0 < |x - a| < \delta \to |f(x) - L| < \varepsilon\big)$$
+*Negation:*
+$$\exists \varepsilon > 0 \, \forall \delta > 0 \, \exists x \, \big(0 < |x - a| < \delta \land |f(x) - L| \ge \varepsilon\big)$$
+
+```{python}
+# Python/SymPy Verification of Logical Equivalence
+import sympy as sp
+from sympy.logic.boolalg import simplify_logic, Equivalent
+
+p, q, r = sp.symbols('p q r')
+expr1 = ~(p | (~p & q))
+expr2 = ~p & ~q
+print("Simplified expr1:", simplify_logic(expr1))
+print("Are expr1 and expr2 logically equivalent?", simplify_logic(Equivalent(expr1, expr2)) == True)
+```
+
+### Problems & Solutions (Section 1.1)
+
+#### Problem 1.1.1
+Prove using laws of propositional logic (without truth tables) that $(p \land q) \to (p \lor q)$ is a tautology.
+
+::: {.callout-tip collapse="true"}
+## Solution to Problem 1.1.1
+$$
+\begin{aligned}
+(p \land q) \to (p \lor q) &\equiv \neg(p \land q) \lor (p \lor q) && \text{(Implication Law)} \\
+&\equiv (\neg p \lor \neg q) \lor (p \lor q) && \text{(De Morgan's Law)} \\
+&\equiv (\neg p \lor p) \lor (\neg q \lor q) && \text{(Associative \& Commutative Laws)} \\
+&\equiv \mathbf{T} \lor \mathbf{T} && \text{(Negation Law)} \\
+&\equiv \mathbf{T} && \text{(Domination Law)}
+\end{aligned}
+$$
+
+Hence, $(p \land q) \to (p \lor q)$ is a tautology.
+:::
+
+#### Problem 1.1.2
+Show that $(p \to q) \land (p \to r) \equiv p \to (q \land r)$ using algebraic laws of logic.
+
+::: {.callout-tip collapse="true"}
+## Solution to Problem 1.1.2
+$$
+\begin{aligned}
+(p \to q) \land (p \to r) &\equiv (\neg p \lor q) \land (\neg p \lor r) && \text{(Implication Law)} \\
+&\equiv \neg p \lor (q \land r) && \text{(Distributive Law)} \\
+&\equiv p \to (q \land r) && \text{(Implication Law)}
+\end{aligned}
+$$
+:::
+
+#### Problem 1.1.3
+Find the Disjunctive Normal Form (DNF) and Conjunctive Normal Form (CNF) of the compound proposition $f(p,q,r) = (p \to q) \land (\neg q \lor r)$.
+
+::: {.callout-tip collapse="true"}
+## Solution to Problem 1.1.3
+- **CNF:** Since $p \to q \equiv \neg p \lor q$, the expression is already a conjunction of clauses:
+  $$\text{CNF}(f) = (\neg p \lor q) \land (\neg q \lor r)$$
+- **DNF:** Distribute over conjunction or list minterms where $f$ is true. Note $f$ is true for $(p,q,r) \in \{(T,T,T), (F,T,T), (F,F,T), (F,F,F)\}$:
+  $$\text{DNF}(f) = (p \land q \land r) \lor (\neg p \land q \land r) \lor (\neg p \land \neg q \land r) \lor (\neg p \land \neg q \land \neg r)$$
+  which simplifies to $(q \land r) \lor (\neg p \land \neg q)$.
+:::
+
+#### Problem 1.1.4
+Let the domain of discourse be all software modules $M$ and all test cases $T$. Let $P(m,t)$ be "$m$ passes test case $t$". Translate into symbolic logic and write the simplified negation of: *"There exists a software module that passes every critical test case, and every module passes at least one test case."* (Let $C(t)$ mean "$t$ is critical".)
+
+::: {.callout-tip collapse="true"}
+## Solution to Problem 1.1.4
+- **Symbolic Form:**
+  $$\Big(\exists m \, \forall t \, (C(t) \to P(m,t))\Big) \land \Big(\forall m \, \exists t \, P(m,t)\Big)$$
+- **Negation:** Apply De Morgan's Law across conjunction and push $\neg$ inward:
+  $$\begin{aligned}
+  &\neg\Big[\Big(\exists m \, \forall t \, (C(t) \to P(m,t))\Big) \land \Big(\forall m \, \exists t \, P(m,t)\Big)\Big] \\
+  &\equiv \Big(\forall m \, \exists t \, \neg(C(t) \to P(m,t))\Big) \lor \Big(\exists m \, \forall t \, \neg P(m,t)\Big) \\
+  &\equiv \Big(\forall m \, \exists t \, (C(t) \land \neg P(m,t))\Big) \lor \Big(\exists m \, \forall t \, \neg P(m,t)\Big)
+  \end{aligned}$$
+  *In English:* "Either every software module fails at least one critical test case, or there exists a software module that fails every test case."
+:::
+
+#### Problem 1.1.5
+Determine the truth value of each statement when the domain for $x$ and $y$ is the set of all real numbers $\mathbb{R}$, and justify your answer:
+(a) $\forall x \exists y \, (x + y = 0)$  
+(b) $\exists x \forall y \, (x + y = 0)$  
+(c) $\forall x \forall y \, (x^2 \ne y^3 \to x \ne y)$  
+(d) $\exists x \exists y \, (x + 2y = 4 \land 2x + 4y = 9)$
+
+::: {.callout-tip collapse="true"}
+## Solution to Problem 1.1.5
+(a) **True.** For any given $x \in \mathbb{R}$, choosing $y = -x \in \mathbb{R}$ gives $x + (-x) = 0$.  
+(b) **False.** If such a fixed $x_0$ existed, then $x_0 + y = 0$ would have to hold for both $y = 0$ (giving $x_0 = 0$) and $y = 1$ (giving $x_0 = -1$), a contradiction.  
+(c) **False.** Counterexample: let $x = 2$ and $y = 2$. Then $x^2 = 4 \ne 8 = y^3$ is true, while $x \ne y$ ($2 \ne 2$) is false, making the implication false.  
+(d) **False.** Multiplying the first equation by $2$ gives $2x + 4y = 8$, which contradicts $2x + 4y = 9$. The system is inconsistent, so no pair $(x,y) \in \mathbb{R}^2$ satisfies both.
+:::
+
+---
+
+## Theorem Proving, Mathematical Induction, and Functions
+
+### Context & Computing Motivation
+Validating algorithm correctness, establishing loop invariants, and analyzing data transformations depend on formal rules of inference, mathematical induction, and function properties. In cryptography and hashing, bijections ensure lossless invertibility (decryption), whereas non-injective functions characterize hash collisions. Mathematical induction directly mirrors loop invariants and recursive verification in program analysis.
+
+### Basic Theory & Formal Definitions
+
+::: {.callout-note}
+## Rules of Inference & Proof Strategies
+- **Modus Ponens:** $((p \to q) \land p) \to q$
+- **Modus Tollens:** $((p \to q) \land \neg q) \to \neg p$
+- **Hypothetical Syllogism:** $((p \to q) \land (q \to r)) \to (p \to r)$
+- **Disjunctive Syllogism:** $((p \lor q) \land \neg p) \to q$
+- **Resolution:** $((p \lor q) \land (\neg p \lor r)) \to (q \lor r)$
+
+**Standard Proof Methods for $p \to q$:**
+1. **Direct Proof:** Assume $p$ is true and deduce $q$ through valid inference steps.
+2. **Proof by Contraposition:** Assume $\neg q$ and deduce $\neg p$.
+3. **Proof by Contradiction:** Assume $p \land \neg q$ and derive a contradiction $r \land \neg r$.
+:::
+
+::: {.callout-important}
+## Weak & Strong Mathematical Induction
+Let $P(n)$ be a predicate defined for integers $n \ge n_0$.
+
+- **Principle of Mathematical Induction (Weak Induction):** If $P(n_0)$ is true (Base Case) and $\forall k \ge n_0 \, (P(k) \to P(k+1))$ is true (Inductive Step), then $\forall n \ge n_0 \, P(n)$ holds.
+- **Strong Induction:** If $P(n_0)$ is true and $\forall k \ge n_0 \, ((P(n_0) \land P(n_0+1) \land \dots \land P(k)) \to P(k+1))$ is true, then $\forall n \ge n_0 \, P(n)$ holds.
+:::
+
+#### Functions
+A **function** $f: A \to B$ assigns to each element $a \in A$ (the **domain**) a unique element $f(a) \in B$ (the **codomain**). The **range** (or image) is $f(A) = \{f(a) : a \in A\}$.
+
+- **Injective (One-to-One):** $\forall x_1, x_2 \in A, \, f(x_1) = f(x_2) \to x_1 = x_2$.
+- **Surjective (Onto):** $\forall b \in B, \, \exists a \in A \text{ such that } f(a) = b$.
+- **Bijective (One-to-One Correspondence):** Both injective and surjective. A function $f: A \to B$ has an inverse $f^{-1}: B \to A$ if and only if $f$ is bijective.
+- **Floor and Ceiling Functions:** $\lfloor x \rfloor = \max\{n \in \mathbb{Z} : n \le x\}$ and $\lceil x \rceil = \min\{n \in \mathbb{Z} : n \ge x\}$.
+
+### Worked Examples
+
+**Example 1.2.1 (Formal Validity via Rules of Inference):**  
+Show that the hypotheses $p \to q$, $q \to (r \land s)$, $\neg r \lor (\neg t \lor u)$, and $p \land t$ imply $u$.
+
+*Solution:*
+1. $p \land t$ (Premise) $\implies p$ (Simplification) and $t$ (Simplification).
+2. From $p$ and $p \to q$, infer $q$ (Modus Ponens).
+3. From $q$ and $q \to (r \land s)$, infer $r \land s$ (Modus Ponens) $\implies r$ (Simplification).
+4. From $\neg r \lor (\neg t \lor u)$ and $r \equiv \neg(\neg r)$, infer $\neg t \lor u$ (Disjunctive Syllogism).
+5. From $\neg t \lor u$ and $t$, infer $u$ (Disjunctive Syllogism). $\blacksquare$
+
+**Example 1.2.2 (Strong Induction on Postage Stamps):**  
+Prove that every postage amount of $n \ge 12$ cents can be formed using $4$-cent and $5$-cent stamps.
+
+*Solution:*
+- **Base Cases:** $12 = 4 \times 3$, $13 = 4 \times 2 + 5 \times 1$, $14 = 4 \times 1 + 5 \times 2$, $15 = 5 \times 3$. Thus $P(12), P(13), P(14), P(15)$ hold.
+- **Inductive Step:** Let $k \ge 15$ and assume $P(j)$ holds for all $12 \le j \le k$. To form $k+1 \ge 16$, note that $12 \le (k+1)-4 = k-3 \le k$. By the strong inductive hypothesis, $k-3$ cents can be formed using $4$-cent and $5$-cent stamps. Adding one $4$-cent stamp yields $k+1$ cents. $\blacksquare$
+
+### Problems & Solutions (Section 1.2)
+
+#### Problem 1.2.1
+Prove by contraposition: For any integer $n$, if $3n + 2$ is odd, then $n$ is odd.
+
+::: {.callout-tip collapse="true"}
+## Solution to Problem 1.2.1
+The contrapositive statement is: *"If $n$ is even, then $3n + 2$ is even."*  
+Assume $n$ is even, so $n = 2k$ for some integer $k \in \mathbb{Z}$. Then:
+$$3n + 2 = 3(2k) + 2 = 6k + 2 = 2(3k + 1)$$
+Since $3k + 1 \in \mathbb{Z}$, $3n + 2$ is an integer multiple of $2$, hence even. By contraposition, if $3n + 2$ is odd, then $n$ is odd. $\blacksquare$
+:::
+
+#### Problem 1.2.2
+Prove by contradiction that $\sqrt{3}$ is irrational.
+
+::: {.callout-tip collapse="true"}
+## Solution to Problem 1.2.2
+Assume to the contrary that $\sqrt{3}$ is rational. Then $\sqrt{3} = \frac{a}{b}$ for some integers $a, b \in \mathbb{Z}^+$ with $\gcd(a,b) = 1$. Squaring both sides gives:
+$$3b^2 = a^2$$
+Thus $3 \mid a^2$. Since $3$ is prime, $3 \mid a$, so $a = 3k$ for some $k \in \mathbb{Z}$. Substituting into the equation yields:
+$$3b^2 = (3k)^2 = 9k^2 \implies b^2 = 3k^2$$
+
+Hence $3 \mid b^2$, which implies $3 \mid b$. Therefore, $3$ is a common divisor of both $a$ and $b$, contradicting $\gcd(a,b) = 1$. Thus $\sqrt{3}$ is irrational. $\blacksquare$
+:::
+
+#### Problem 1.2.3
+Use mathematical induction to prove that for all integers $n \ge 1$:
+$$\sum_{i=1}^{n} i^2 = \frac{n(n+1)(2n+1)}{6}$$
+
+::: {.callout-tip collapse="true"}
+## Solution to Problem 1.2.3
+- **Base Case ($n=1$):** $\text{LHS} = 1^2 = 1$, and $\text{RHS} = \frac{1(2)(3)}{6} = 1$. Holds.
+- **Inductive Hypothesis:** Assume that for some $k \ge 1$, $\sum_{i=1}^{k} i^2 = \frac{k(k+1)(2k+1)}{6}$.
+- **Inductive Step:** For $n = k+1$:
+  $$\begin{aligned}
+  \sum_{i=1}^{k+1} i^2 &= \frac{k(k+1)(2k+1)}{6} + (k+1)^2 \\
+  &= \frac{k+1}{6}\big[k(2k+1) + 6(k+1)\big] \\
+  &= \frac{k+1}{6}(2k^2 + 7k + 6) \\
+  &= \frac{(k+1)(k+2)(2k+3)}{6} = \frac{(k+1)((k+1)+1)(2(k+1)+1)}{6}
+  \end{aligned}$$
+By mathematical induction, the formula holds for all $n \ge 1$. $\blacksquare$
+:::
+
+#### Problem 1.2.4
+Prove by mathematical induction that $7^n - 2^n$ is divisible by $5$ for all integers $n \ge 0$.
+
+::: {.callout-tip collapse="true"}
+## Solution to Problem 1.2.4
+- **Base Case ($n=0$):** $7^0 - 2^0 = 0 = 5 \times 0$, which is divisible by $5$.
+- **Inductive Hypothesis:** Assume $7^k - 2^k = 5m$ for some integer $m \in \mathbb{Z}$.
+- **Inductive Step:** Consider $n = k+1$:
+  $$7^{k+1} - 2^{k+1} = 7 \cdot 7^k - 2 \cdot 2^k = 7(7^k - 2^k) + 7 \cdot 2^k - 2 \cdot 2^k = 7(5m) + 5 \cdot 2^k = 5(7m + 2^k)$$
+  Since $7m + 2^k \in \mathbb{Z}$, $5 \mid (7^{k+1} - 2^{k+1})$. By induction, $5 \mid (7^n - 2^n)$ for all $n \ge 0$. $\blacksquare$
+:::
+
+#### Problem 1.2.5
+Let $f: \mathbb{R} \setminus \{2\} \to \mathbb{R} \setminus \{3\}$ be defined by $f(x) = \frac{3x + 1}{x - 2}$. Prove that $f$ is a bijection and find its inverse function $f^{-1}$.
+
+::: {.callout-tip collapse="true"}
+## Solution to Problem 1.2.5
+- **Injectivity:** Suppose $f(x_1) = f(x_2)$ for $x_1, x_2 \in \mathbb{R} \setminus \{2\}$.
+  $$\frac{3x_1 + 1}{x_1 - 2} = \frac{3x_2 + 1}{x_2 - 2} \implies 3 + \frac{7}{x_1 - 2} = 3 + \frac{7}{x_2 - 2} \implies x_1 - 2 = x_2 - 2 \implies x_1 = x_2$$
+  Thus $f$ is injective.
+- **Surjectivity & Inverse:** Let $y \in \mathbb{R} \setminus \{3\}$. Solve $y = \frac{3x + 1}{x - 2}$ for $x$:
+  $$y(x - 2) = 3x + 1 \implies x(y - 3) = 2y + 1 \implies x = \frac{2y + 1}{y - 3}$$
+  Since $y \ne 3$, $x$ is a well-defined real number, and $x \ne 2$ because $\frac{2y+1}{y-3} = 2 \implies 2y + 1 = 2y - 6$ (impossible). Thus $f$ is surjective, hence bijective, with inverse:
+  $$f^{-1}(y) = \frac{2y + 1}{y - 3}$$
+:::
+
+---
+
+## Recursive Definitions and Recursive Algorithms
+
+### Context & Computing Motivation
+Recursive data structures—such as abstract syntax trees in compilers, binary search trees, linked lists, and fractal graphs—are defined inductively from base elements and constructor rules. Recursive algorithms solve problems by reducing an instance of size $n$ to smaller instances of the same problem, forming the backbone of functional programming, dynamic programming, and tree traversal algorithms.
+
+### Basic Theory & Formal Definitions
+
+::: {.callout-note}
+## Recursively Defined Functions, Sets, and Structural Induction
+1. **Recursively Defined Functions:** Specify the value of the function at base integer(s) (e.g., $f(0)$) and give a rule for computing $f(n)$ from $f(0), f(1), \dots, f(n-1)$.
+2. **Recursively Defined Sets & Structures:**
+   - **Basis Step:** Specify an initial collection of elements belonging to $S$.
+   - **Recursive Step:** Give rules for constructing new elements of $S$ from existing elements in $S$.
+   - **Exclusion Rule:** $S$ contains nothing other than elements obtained from the basis and recursive steps.
+3. **Structural Induction:** To prove $\forall x \in S, \, P(x)$ holds:
+   - Prove $P(b)$ for every basis element $b \in S$.
+   - Prove that if the constructor rule produces $x_{\text{new}}$ from $x_1, \dots, x_m \in S$ satisfying $P(x_1), \dots, P(x_m)$, then $P(x_{\text{new}})$ holds.
+:::
+
+#### Classical Recursive Sequences and Structures
+- **Fibonacci Numbers:** $F_0 = 0, \, F_1 = 1$, and $F_n = F_{n-1} + F_{n-2}$ for $n \ge 2$.
+- **Full Binary Trees:**
+  - *Basis:* A single vertex $r$ is a full binary tree.
+  - *Recursive Step:* If $T_1$ and $T_2$ are disjoint full binary trees, then joining a new root $r$ to the roots of $T_1$ and $T_2$ forms a full binary tree $T = T_1 \cdot T_2$.
+
+### Worked Examples
+
+**Example 1.3.1 (Structural Induction on Full Binary Trees):**  
+For a full binary tree $T$, let $i(T)$ be the number of internal vertices and $l(T)$ be the number of leaves. Prove by structural induction that $l(T) = i(T) + 1$.
+
+*Solution:*
+- **Basis Step:** For a single root vertex $T = \{r\}$, there are $i(T) = 0$ internal vertices and $l(T) = 1$ leaf. Thus $l(T) = 0 + 1 = 1$.
+- **Inductive Step:** Suppose $T = T_1 \cdot T_2$ where $l(T_1) = i(T_1) + 1$ and $l(T_2) = i(T_2) + 1$. In $T$, the leaves are the leaves of $T_1$ and $T_2$, while the internal vertices are those of $T_1$ and $T_2$ plus the new root $r$:
+  $$l(T) = l(T_1) + l(T_2) = (i(T_1) + 1) + (i(T_2) + 1) = (i(T_1) + i(T_2) + 1) + 1 = i(T) + 1 \quad \blacksquare$$
+
+```{python}
+# Recursive Fast Modular Exponentiation & Euclidean GCD in Python
+def mod_exp_recursive(b: int, n: int, m: int) -> int:
+    """Computes b^n mod m recursively in O(log n) steps."""
+    if n == 0:
+        return 1 % m
+    half = mod_exp_recursive(b, n // 2, m)
+    sq = (half * half) % m
+    return sq if n % 2 == 0 else (sq * (b % m)) % m
+
+print("7^256 mod 13 =", mod_exp_recursive(7, 256, 13))
+```
+
+### Problems & Solutions (Section 1.3)
+
+#### Problem 1.3.1
+Let $F_n$ denote the $n$-th Fibonacci number ($F_0 = 0, F_1 = 1, F_n = F_{n-1} + F_{n-2}$). Prove by induction that for all $n \ge 1$:
+$$\sum_{i=1}^{n} F_i^2 = F_n F_{n+1}$$
+
+::: {.callout-tip collapse="true"}
+## Solution to Problem 1.3.1
+- **Base Case ($n=1$):** $\text{LHS} = F_1^2 = 1^2 = 1$, and $\text{RHS} = F_1 F_2 = 1 \cdot 1 = 1$.
+- **Inductive Step:** Assume $\sum_{i=1}^{k} F_i^2 = F_k F_{k+1}$ for $k \ge 1$. Then for $n = k+1$:
+  $$\sum_{i=1}^{k+1} F_i^2 = F_k F_{k+1} + F_{k+1}^2 = F_{k+1}(F_k + F_{k+1}) = F_{k+1} F_{k+2}$$
+  By mathematical induction, the identity holds for all $n \ge 1$. $\blacksquare$
+:::
+
+#### Problem 1.3.2
+Prove Cassini's Identity for Fibonacci numbers by induction for all $n \ge 1$:
+$$F_{n+1}F_{n-1} - F_n^2 = (-1)^n$$
+
+::: {.callout-tip collapse="true"}
+## Solution to Problem 1.3.2
+- **Base Case ($n=1$):** $F_2 F_0 - F_1^2 = 1(0) - 1^2 = -1 = (-1)^1$.
+- **Inductive Step:** Assume $F_{k+1}F_{k-1} - F_k^2 = (-1)^k$, so $F_k^2 = F_{k+1}F_{k-1} - (-1)^k$. For $n = k+1$:
+  $$\begin{aligned}
+  F_{k+2}F_k - F_{k+1}^2 &= (F_{k+1} + F_k)F_k - F_{k+1}^2 \\
+  &= F_{k+1}F_k + F_k^2 - F_{k+1}^2 \\
+  &= F_{k+1}F_k + \big(F_{k+1}F_{k-1} - (-1)^k\big) - F_{k+1}^2 \\
+  &= F_{k+1}(F_k + F_{k-1} - F_{k+1}) - (-1)^k \\
+  &= F_{k+1}(0) + (-1)^{k+1} = (-1)^{k+1} \quad \blacksquare
+  \end{aligned}$$
+:::
+
+#### Problem 1.3.3
+A set $S \subseteq \mathbb{Z}$ is defined recursively by:
+1. **Basis:** $3 \in S$.
+2. **Recursive Rule:** If $x \in S$ and $y \in S$, then $x + y \in S$ and $x - y \in S$.
+Prove by structural induction ( combined with integer division) that $S$ is precisely the set of all integer multiples of $3$, i.e., $S = 3\mathbb{Z}$.
+
+::: {.callout-tip collapse="true"}
+## Solution to Problem 1.3.3
+- **Part 1 ($S \subseteq 3\mathbb{Z}$ by Structural Induction):**
+  - *Basis:* $3 = 3 \times 1 \in 3\mathbb{Z}$.
+  - *Recursive Step:* If $x = 3a$ and $y = 3b$ for $a,b \in \mathbb{Z}$, then $x \pm y = 3(a \pm b) \in 3\mathbb{Z}$. Thus $S \subseteq 3\mathbb{Z}$.
+- **Part 2 ($3\mathbb{Z} \subseteq S$):**
+  - Since $3 \in S$, applying the difference rule gives $0 = 3 - 3 \in S$, and $-3 = 0 - 3 \in S$.
+  - By ordinary induction on $k \ge 1$, $3k = 3(k-1) + 3 \in S$, and $-3k = 0 - 3k \in S$. Thus $3\mathbb{Z} \subseteq S$, proving $S = 3\mathbb{Z}$. $\blacksquare$
+:::
+
+#### Problem 1.3.4
+Write a recursive algorithm `RecursiveBinarySearch(A, low, high, x)` for finding a target $x$ in a sorted array $A[\text{low}..\text{high}]$, and prove its correctness by strong induction on the subarray length $n = \text{high} - \text{low} + 1$.
+
+::: {.callout-tip collapse="true"}
+## Solution to Problem 1.3.4
+**Algorithm:**
+1. If $\text{low} > \text{high}$, return $-1$ (not found).
+2. Set $\text{mid} = \lfloor (\text{low} + \text{high})/2 \rfloor$.
+3. If $A[\text{mid}] == x$, return $\text{mid}$.
+4. Else if $x < A[\text{mid}]$, return `RecursiveBinarySearch(A, low, mid - 1, x)`.
+5. Else return `RecursiveBinarySearch(A, mid + 1, high, x)`.
+
+**Correctness Proof (Strong Induction on $n = \text{high} - \text{low} + 1 \ge 0$):**
+- **Base Case ($n = 0$, i.e., $\text{low} > \text{high}$):** The subarray is empty so $x$ is not present; step 1 correctly returns $-1$.
+- **Inductive Step:** Let $n \ge 1$ and assume the algorithm works for all sorted subarrays of length $< n$. At step 3, if $A[\text{mid}] == x$, it returns $\text{mid}$ correctly. If $x < A[\text{mid}]$, because $A$ is sorted, $x$ cannot lie in $A[\text{mid}..\text{high}]$, so $x \in A[\text{low}..\text{high}] \iff x \in A[\text{low}..\text{mid}-1]$. This subarray has length $\text{mid} - \text{low} < n$, so by the strong inductive hypothesis, the recursive call in step 4 returns the correct result. The case $x > A[\text{mid}]$ is symmetric. $\blacksquare$
+:::
+
+#### Problem 1.3.5
+Let $\Sigma = \{a, b\}$, and let $w^R$ denote the reversal of string $w \in \Sigma^*$, defined recursively by $\lambda^R = \lambda$ (empty string) and $(wa)^R = a w^R$ for $w \in \Sigma^*, a \in \Sigma$. Prove by structural induction on $y \in \Sigma^*$ that $(xy)^R = y^R x^R$ for all $x, y \in \Sigma^*$.
+
+::: {.callout-tip collapse="true"}
+## Solution to Problem 1.3.5
+Fix an arbitrary string $x \in \Sigma^*$ and perform structural induction on $y \in \Sigma^*$:
+- **Basis Step ($y = \lambda$):**
+  $$(x\lambda)^R = x^R = \lambda x^R = \lambda^R x^R$$
+- **Inductive Step:** Assume $(xw)^R = w^R x^R$ for $w \in \Sigma^*$, and let $y = wa$ where $a \in \Sigma$. Then:
+  $$(xy)^R = (x(wa))^R = ((xw)a)^R = a(xw)^R = a(w^R x^R) = (aw^R)x^R = (wa)^R x^R = y^R x^R$$
+By structural induction, $(xy)^R = y^R x^R$ for all $x, y \in \Sigma^*$. $\blacksquare$
+:::
+
+---
+
+## Basics of Counting, Pigeonhole Principle, Permutations, and Combinations
+
+### Context & Computing Motivation
+Combinatorial enumeration underpins algorithm complexity analysis, probability estimation in machine learning, cryptographic keyspace calculation, and network capacity planning. The Pigeonhole Principle guarantees hash collisions when the input space exceeds the hash table size and proves the existence of lossless compression limits.
+
+### Basic Theory & Formal Definitions
+
+::: {.callout-note}
+## Fundamental Counting Principles
+- **Product Rule:** If a procedure can be broken into a sequence of $k$ tasks where the $i$-th task can be performed in $n_i$ ways regardless of prior choices, the total number of ways is $n_1 \cdot n_2 \cdots n_k$.
+- **Sum Rule:** If a task can be done in one of $k$ mutually exclusive ways with sizes $n_1, \dots, n_k$, the total number of ways is $n_1 + n_2 + \dots + n_k$.
+- **Subtraction Rule (Inclusion-Exclusion for 2 sets):** $|A \cup B| = |A| + |B| - |A \cap B|$.
+:::
+
+::: {.callout-important}
+## Generalized Pigeonhole Principle
+If $N$ objects are placed into $k$ boxes, then at least one box contains at least $\lceil N / k \rceil$ objects. Equivalently, to guarantee that at least one of $k$ boxes holds at least $m$ objects, we need $N \ge k(m - 1) + 1$ objects.
+:::
+
+#### Permutations and Combinations
+
+| Selection Type | Order Matters? | Repetition Allowed? | Formula |
+|:---|:---:|:---:|:---:|
+| $r$-Permutation | Yes | No | $P(n,r) = \dfrac{n!}{(n-r)!}$ |
+| $r$-String (Tuple) | Yes | Yes | $n^r$ |
+| $r$-Combination | No | No | $C(n,r) = \dbinom{n}{r} = \dfrac{n!}{r!(n-r)!}$ |
+| $r$-Multiset (Stars & Bars) | No | Yes | $\dbinom{n + r - 1}{r} = \dbinom{n + r - 1}{n - 1}$ |
+
+- **Binomial Theorem:** $(x + y)^n = \sum_{k=0}^{n} \binom{n}{k} x^{n-k} y^k$.
+- **Pascal's Identity:** $\binom{n+1}{k} = \binom{n}{k-1} + \binom{n}{k}$.
+- **Vandermonde's Identity:** $\binom{m+n}{r} = \sum_{k=0}^{r} \binom{m}{r-k}\binom{n}{k}$.
+
+### Worked Examples
+
+**Example 1.4.1 (Subsequence Divisibility via Pigeonhole Principle):**  
+Show that given any sequence of $n$ integers $a_1, a_2, \dots, a_n$, there exists a contiguous subsequence $a_i, a_{i+1}, \dots, a_j$ ($1 \le i \le j \le n$) whose sum is divisible by $n$.
+
+*Solution:*  
+Consider the $n$ prefix sums $S_k = \sum_{m=1}^{k} a_m$ for $k = 1, 2, \dots, n$.
+- If any $S_k \equiv 0 \pmod n$, then $a_1 + \dots + a_k$ is divisible by $n$.
+- Otherwise, each $S_k \bmod n$ belongs to $\{1, 2, \dots, n-1\}$ ($n-1$ boxes). By the Pigeonhole Principle, two prefix sums $S_{i-1}$ and $S_j$ ($i \le j$) have the same remainder modulo $n$. Then $S_j - S_{i-1} = a_i + \dots + a_j$ is divisible by $n$. $\blacksquare$
+
+```{python}
+import math
+
+# Stars and Bars: Number of non-negative integer solutions to x1 + x2 + x3 + x4 = 20
+# with x1 >= 2, x2 >= 0, x3 >= 3, x4 >= 1
+# Substitute y1 = x1-2, y2 = x2, y3 = x3-3, y4 = x4-1 => y1 + y2 + y3 + y4 = 14
+n_vars = 4
+remaining_sum = 20 - (2 + 0 + 3 + 1)
+num_solutions = math.comb(n_vars + remaining_sum - 1, remaining_sum)
+print(f"Number of integer solutions: C({n_vars + remaining_sum - 1}, {remaining_sum}) = {num_solutions}")
+```
+
+### Problems & Solutions (Section 1.4)
+
+#### Problem 1.4.1
+An IPv4-style internal subnet tag consists of 8 uppercase English letters (A–Z) or digits (0–9). How many such 8-character tags contain **at least one** digit and **at least one** vowel (A, E, I, O, U)?
+
+::: {.callout-tip collapse="true"}
+## Solution to Problem 1.4.1
+The alphabet has $26 + 10 = 36$ characters: $10$ digits, $5$ vowels, and $21$ consonants.
+- Total 8-character tags: $|U| = 36^8$.
+- Tags with **no digits** (only 26 letters): $|A| = 26^8$.
+- Tags with **no vowels** (10 digits + 21 consonants = 31 chars): $|B| = 31^8$.
+- Tags with **no digits and no vowels** (only 21 consonants): $|A \cap B| = 21^8$.
+
+By Inclusion-Exclusion:
+$$|U \setminus (A \cup B)| = 36^8 - 26^8 - 31^8 + 21^8 = 2,821,109,907,456 - 208,827,064,576 - 852,891,037,441 + 37,822,859,361 = 1,797,214,664,800$$
+:::
+
+#### Problem 1.4.2
+Prove that in any group of $n + 1$ integers chosen from the set $\{1, 2, 3, \dots, 2n\}$, there is at least one pair of integers such that one divides the other.
+
+::: {.callout-tip collapse="true"}
+## Solution to Problem 1.4.2
+Every integer $x \in \{1, 2, \dots, 2n\}$ can be uniquely written as $x = 2^k \cdot m$, where $k \ge 0$ and $m$ is an odd integer in $\{1, 3, 5, \dots, 2n-1\}$.  
+There are exactly $n$ odd integers in $\{1, 2, \dots, 2n\}$ (the $n$ pigeonholes). Since $n + 1$ integers are chosen (the pigeons), by the Pigeonhole Principle at least two chosen integers $x_1 = 2^{k_1} m$ and $x_2 = 2^{k_2} m$ share the same odd part $m$. Without loss of generality, if $k_1 < k_2$, then $x_1 \mid x_2$. $\blacksquare$
+:::
+
+#### Problem 1.4.3
+How many solutions does the equation $x_1 + x_2 + x_3 + x_4 = 25$ have in integers satisfying $x_1 \ge 2$, $x_2 \ge 0$, $x_3 \ge -1$, and $x_4 \ge 4$?
+
+::: {.callout-tip collapse="true"}
+## Solution to Problem 1.4.3
+Define shifted variables $y_1 = x_1 - 2 \ge 0$, $y_2 = x_2 \ge 0$, $y_3 = x_3 + 1 \ge 0$, and $y_4 = x_4 - 4 \ge 0$. Substituting into the original equation gives:
+$$(y_1 + 2) + y_2 + (y_3 - 1) + (y_4 + 4) = 25 \implies y_1 + y_2 + y_3 + y_4 = 20, \quad y_i \ge 0$$
+By the Stars and Bars formula with $n = 4$ variables and sum $r = 20$:
+$$\binom{4 + 20 - 1}{20} = \binom{23}{20} = \binom{23}{3} = \frac{23 \times 22 \times 21}{6} = 1771 \text{ solutions.}$$
+:::
+
+#### Problem 1.4.4
+Find the coefficient of $x^9$ in the expansion of $\left(2x^2 - \frac{3}{x}\right)^{12}$, and prove the identity $\sum_{k=0}^{n} k \binom{n}{k} = n 2^{n-1}$ both algebraically and combinatorially.
+
+::: {.callout-tip collapse="true"}
+## Solution to Problem 1.4.4
+**Part 1 (Binomial Coefficient):**  
+By the Binomial Theorem, the general term is:
+$$T_k = \binom{12}{k} (2x^2)^{12-k} \left(-3x^{-1}\right)^k = \binom{12}{k} 2^{12-k} (-3)^k x^{24 - 3k}$$
+Setting $24 - 3k = 9 \implies 3k = 15 \implies k = 5$. Thus the coefficient of $x^9$ is:
+$$\binom{12}{5} 2^7 (-3)^5 = 792 \times 128 \times (-243) = -24,634,368$$
+
+**Part 2 (Identity Proof):**
+- *Combinatorial Proof:* Both sides count the number of ways to select a committee of any positive size $k$ from $n$ people along with 1 chairperson from that committee. Choosing the $k$-person committee first ($\binom{n}{k}$) and then the chair ($k$ ways) gives $\sum_{k=0}^{n} k\binom{n}{k}$. Choosing the chair first from $n$ people ($n$ ways) and then any subset of the remaining $n-1$ people ($2^{n-1}$ ways) gives $n 2^{n-1}$.
+- *Algebraic Proof:* Differentiating $(1+x)^n = \sum_{k=0}^{n} \binom{n}{k} x^k$ with respect to $x$ yields $n(1+x)^{n-1} = \sum_{k=1}^{n} k\binom{n}{k} x^{k-1}$. Setting $x=1$ gives $n 2^{n-1} = \sum_{k=0}^{n} k\binom{n}{k}$. $\blacksquare$
+:::
+
+#### Problem 1.4.5
+How many distinct permutations of the letters of the word `MISSISSIPPI` exist in which no two `I`'s are adjacent?
+
+::: {.callout-tip collapse="true"}
+## Solution to Problem 1.4.5
+The word `MISSISSIPPI` has $11$ letters: $1$ `M`, $4$ `I`'s, $4$ `S`'s, and $2$ `P`'s.
+1. First arrange the $7$ non-`I` letters (`M`, `S`, `S`, `S`, `S`, `P`, `P`):
+   $$\frac{7!}{1! \, 4! \, 2!} = \frac{5040}{48} = 105 \text{ ways.}$$
+2. These $7$ letters create $8$ gap positions (including ends): `_ X _ X _ X _ X _ X _ X _ X _`. Choose $4$ of these $8$ gaps for the $4$ identical `I`'s:
+   $$\binom{8}{4} = 70 \text{ ways.}$$
+3. By the Product Rule, the total number of valid arrangements is $105 \times 70 = 7350$.
+:::

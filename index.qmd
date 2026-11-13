@@ -1,0 +1,58 @@
+# Course Overview & Syllabus {.unnumbered}
+
+Welcome to the interactive digital course companion for **22MAT121: Discrete Mathematics**, designed for the **B.Tech Artificial Intelligence & Engineering (BTC-AIE)** curriculum (June 2022) at **Amrita Vishwa Vidyapeetham**.
+
+| Attribute | Details |
+|:---|:---|
+| **Course Code** | `22MAT121` |
+| **Course Title** | Discrete Mathematics |
+| **L–T–P–C** | 2–0–3–3 |
+| **Program** | B.Tech Artificial Intelligence & Engineering (BTC-AIE) |
+| **Curriculum** | June 2022 |
+
+## Course Objectives {.unnumbered}
+
+- Familiarize with various concepts in logic and proof techniques.
+- Understand the concepts of various types of relations, partial ordering, and equivalence relations.
+- Understand the concepts of generating functions and apply them to solve recurrence relations.
+- Familiarize with basic results in number theory and understand its applications in information security.
+
+## Course Outcomes (COs) {.unnumbered}
+
+After completing this course, students will be able to:
+
+- **CO1:** Apply the tools and techniques of mathematical reasoning required for computing.
+- **CO2:** Apply the concepts of generating functions to solve the recurrence relations.
+- **CO3:** Apply the concepts of divide and conquer method and principle of inclusion and exclusion to solve some simple algorithms in discrete mathematics.
+- **CO4:** Apply the formalism of number theory required for computing.
+
+## CO–PO–PSO Articulation Matrix {.unnumbered}
+
+| CO | PO1 | PO2 | PO3 | PO4 | PO5 | PO6 | PO7 | PO8 | PO9 | PO10 | PO11 | PO12 | PSO1 | PSO2 |
+|:--:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:----:|:----:|:----:|:----:|:----:|
+| **CO1** | 3 | 2 | 1 | - | - | - | - | - | - | - | - | - | 2 | 1 |
+| **CO2** | 3 | 3 | 2 | - | - | - | - | - | - | - | - | - | - | 2 |
+| **CO3** | 3 | 3 | 2 | - | - | - | - | - | - | - | - | - | 1 | - |
+| **CO4** | 2 | 3 | 2 | - | - | - | - | - | - | - | - | - | 1 | 2 |
+
+## Module Structure & Navigation {.unnumbered}
+
+1. **[Unit 1: Logic, Mathematical Reasoning, and Counting](unit1-logic-counting.qmd)**
+   - *Section 1.1:* Propositional Logic, Equivalence, Predicates, and Quantifiers
+   - *Section 1.2:* Theorem Proving, Mathematical Induction, and Functions
+   - *Section 1.3:* Recursive Definitions and Recursive Algorithms
+   - *Section 1.4:* Basics of Counting, Pigeonhole Principle, Permutations, and Combinations
+2. **[Unit 2: Relations, Recurrence Relations, and Advanced Counting Techniques](unit2-relations-recurrences.qmd)**
+   - *Section 2.1:* Relations, Representations, and Closures
+   - *Section 2.2:* Equivalence Relations, Partitions, and Partial Orderings
+   - *Section 2.3:* Recurrence Relations and Generating Functions
+   - *Section 2.4:* Divide-and-Conquer Relations and Principle of Inclusion-Exclusion
+3. **[Unit 3: Number Theory and Cryptographic Applications](unit3-number-theory.qmd)**
+   - *Section 3.1:* Divisibility, Prime Factorization, Linear Congruences, and the Chinese Remainder Theorem
+   - *Section 3.2:* Wilson's, Fermat's, and Euler's Theorems, Pseudoprimes, and Carmichael Numbers
+   - *Section 3.3:* Arithmetic Functions and Quadratic Residues
+
+::: {.callout-tip}
+## How to Use This Digital Textbook
+Each section includes **Computing & AI Context**, **Formal Definitions & Theorems**, **Worked Examples with Python/SymPy Verification**, and **5 Practice Problems with Collapsible Step-by-Step Solutions**. Attempt each problem first before clicking the solution banner to expand the full derivation.
+:::

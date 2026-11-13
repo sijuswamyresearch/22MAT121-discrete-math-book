@@ -1,0 +1,53 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "22MAT121: Discrete Mathematics"
+  subtitle: "Digital Course Material — B.Tech Artificial Intelligence & Engineering (BTC-AIE)"
+  author: "Prof. Siju K S | Research Scholar, Amrita Vishwa Vidyapeetham"
+  date: today
+  search: true
+  page-navigation: true
+  reader-mode: true
+  downloads: [pdf]
+  sidebar:
+    style: docked
+    background: light
+    collapse-level: 2
+  page-footer:
+    left: "22MAT121 Discrete Mathematics | Amrita Vishwa Vidyapeetham"
+    right: "B.Tech Curriculum June 2022 (BTC-AIE)"
+  chapters:
+    - index.qmd
+    - unit1-logic-counting.qmd
+    - unit2-relations-recurrences.qmd
+    - unit3-number-theory.qmd
+
+jupyter: python3
+
+execute:
+  enabled: true
+  freeze: auto
+  echo: true
+  warning: false
+
+format:
+  html:
+    theme:
+      light: cosmo
+      dark: darkly
+    css: styles.css
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-fold: show
+    code-tools: true
+    code-copy: true
+    html-math-method: mathjax
+  pdf:
+    documentclass: scrreprt
+    toc: true
+    number-sections: true
+    colorlinks: true
+
